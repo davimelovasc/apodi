@@ -1,0 +1,53 @@
+.logo {
+    width: auto;
+    padding: 20px;
+    padding-right: 0;
+    margin-left: auto;
+}
+
+.loginForm {
+    width: 75%;
+    margin-left: auto;
+
+    ion-item:not(:first-child), .marginTop {
+        margin-top: 6%;
+    }
+
+    .pullRight {
+        margin-left: auto;
+    }
+
+    ion-button.pullRight {
+        margin-right: -19px;
+    }
+
+    a.forgotPass {
+        text-decoration: underline;
+    }
+
+    .forgotPassDiv {
+        margin-top: 20px;
+        margin-left: 5px;
+        width: 100%;
+        display: flex;
+    }
+
+ 
+}
+
+.grid {
+  height: 100vh;
+}
+
+.center {
+    align-items: center;
+    height: 86vh;
+}
+
+.pullLeft {
+    margin-left: -15px;
+}
+
+.pullUp {
+    margin-top: -15px;
+}

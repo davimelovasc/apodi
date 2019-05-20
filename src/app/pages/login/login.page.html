@@ -1,0 +1,35 @@
+<ion-content>
+    <ion-grid class="grid">
+
+        <ion-row class="center">
+
+            <ion-col>
+              <ion-img src="../../../assets/logo_vertical.png" class="logo"></ion-img>
+            </ion-col>
+
+            <ion-col>
+                <form class="loginForm" (submit)="login()">
+                    <ion-item>
+                      <ion-input type="tel" placeholder="Digite sua matrícula" [(ngModel)]="user.registry" name="registry" class="form-control"></ion-input>
+                    </ion-item>
+                    <ion-item >
+                        <ion-input type="tel" placeholder="Digite sua senha" [(ngModel)]="user.password" name="password" class="form-control mask-text"></ion-input>
+                    </ion-item>
+                    
+                    <ion-button type="submit" color="primary" class="marginTop pullRight" size="large" expand="block">Entrar</ion-button>
+                    
+                    <div class="forgotPassDiv">
+                      <a (click)="forgotPass()" class="forgotPass pullRight">Redefinir senha</a>
+                    </div>
+                </form>
+            </ion-col>
+
+        </ion-row>
+
+        <ion-row class="pullUp">
+            <ion-button color="primary" class="pullLeft" size="large" >Sobre o sistema</ion-button>
+        </ion-row>
+
+    </ion-grid>
+</ion-content>
+

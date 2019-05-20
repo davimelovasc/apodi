@@ -1,5 +1,7 @@
 {
   "name": "apodi",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
