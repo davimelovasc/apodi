@@ -8,7 +8,7 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
-  { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' }
+  { path: 'about', loadChildren: './pages/about/about.module#AboutPageModule' }
 ];
 
 @NgModule({

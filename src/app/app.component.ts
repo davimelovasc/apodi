@@ -27,6 +27,8 @@ export class AppComponent {
     private menuCtrl: MenuController
   ) {
     this.initializeApp();
+    // check user is logged in
+      // if false
     this.menuCtrl.enable(false);
     this.router.navigateByUrl('/login');
   }
