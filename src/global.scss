@@ -26,3 +26,8 @@
     -moz-webkit-text-security: disc;
     -moz-text-security: disc;
 }
+
+
+.forgotPassModal .modal-wrapper {
+    --height: 50vh;
+}

@@ -27,7 +27,8 @@ export class LoginPage implements OnInit {
 
   async showPassModal() {
     const modal = await this.modalCtrl.create({
-      component: ForgotPassComponent
+      component: ForgotPassComponent,
+      cssClass: 'forgotPassModal'
     });
 
     await modal.present();

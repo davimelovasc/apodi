@@ -1,0 +1,22 @@
+.close {
+    width: fit-content;
+    position: absolute;
+    right: 1%;
+    top: 4px;
+}
+
+.forgotPassModal .modal-wrapper {
+    --height: 50vh;
+}
+
+.forgotPassForm {
+    margin-top: 25px;
+}
+
+.mt-2 {
+    margin-top: 3%;
+}
+
+ion-button[type='submit'] {
+    margin-top: 5vh;
+}
