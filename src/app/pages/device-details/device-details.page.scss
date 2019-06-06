@@ -1,0 +1,46 @@
+.bold {
+    font-weight: 600;
+}
+.titleName {
+    font-weight: 400;
+}
+
+.bodyCard {
+    min-height: 82vh;
+    margin: 5vh 10vw;
+    background-color: #E5E5E5;
+    // padding-left: 40px;
+    // padding-right: 40px;
+}
+
+.paramItem {
+    width: 70px;
+    height: 70px;
+    color: #000;
+}
+
+.paramName {
+    font-size: 2rem;
+    margin-left: 4vw;
+    color: #000;
+    
+}
+
+.smaller {
+    font-size: 1.4rem;
+}
+
+.paramValue {
+    font-size: 2rem;
+    margin-right: auto;
+    color: #000;
+}
+
+.alignBase {
+    margin-top: auto;
+    //margin-bottom: auto;
+}
+
+.mtRows:not(:first-child) {
+    margin-top: 2.5vh;
+}

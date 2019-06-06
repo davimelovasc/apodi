@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { ModalController, MenuController } from '@ionic/angular';
 import { ForgotPassComponent } from 'src/app/components/forgot-pass/forgot-pass.component';
 
 @Component({
@@ -15,7 +15,7 @@ export class LoginPage implements OnInit {
     password: ""
   }
 
-  constructor(private router: Router, private modalCtrl: ModalController) { }
+  constructor(private router: Router, private modalCtrl: ModalController, private menuCtrl: MenuController) { }
 
   ngOnInit() {
   }
@@ -23,6 +23,9 @@ export class LoginPage implements OnInit {
   login() {
     console.log("Matrícula: " + this.user.registry);
     console.log("Password: " + this.user.password);
+    // BACKTODO (call login route)
+    //this.menuCtrl.enable(true);
+    this.router.navigate(["dashboard"]);
   }
 
   async showPassModal() {
