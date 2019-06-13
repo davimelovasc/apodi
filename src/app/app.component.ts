@@ -26,7 +26,7 @@ export class AppComponent {
       title: 'Forno e mancais',
       children: [ 
         {
-          title: 'Forno e mancais',
+          title: 'Forno',
           url: `/device-details/${this.FORNO}`
         },
         {
@@ -201,7 +201,7 @@ export class AppComponent {
       url: `/device-details/${this.MANCAL_B11}`
     },
     {
-      title: 'Duto de ar terciário',
+      title: 'Sair',
       url: `/device-details/${this.MANCAL_B11}`
     }
   ];

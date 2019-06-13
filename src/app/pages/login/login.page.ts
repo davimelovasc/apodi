@@ -25,7 +25,7 @@ export class LoginPage implements OnInit {
     console.log("Password: " + this.user.password);
     // BACKTODO (call login route)
     //this.menuCtrl.enable(true);
-    this.router.navigate(["dashboard"]);
+    this.router.navigate(["dashboard/Mapa"]);
   }
 
   async showPassModal() {

@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
   { path: 'about', loadChildren: './pages/about/about.module#AboutPageModule' },
   { path: 'device-details/:id/:title', loadChildren: './pages/device-details/device-details.module#DeviceDetailsPageModule' },
-  { path: 'dashboard', loadChildren: './pages/dashboard/dashboard.module#DashboardPageModule' }
+  { path: 'dashboard/Mapa', loadChildren: './pages/dashboard/dashboard.module#DashboardPageModule' }
 ];
 
 @NgModule({

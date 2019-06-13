@@ -5,6 +5,9 @@ import { Component as ComponentModel } from '../../models/component';
 import { Parameter } from 'src/app/models/parameter';
 import { Constants } from 'src/app/models/constants';
 
+import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
+import { ToastController } from '@ionic/angular';
+
 @Component({
   selector: 'app-device-details',
   templateUrl: './device-details.page.html',
@@ -13,12 +16,17 @@ import { Constants } from 'src/app/models/constants';
 export class DeviceDetailsPage implements OnInit {
 
   title: String;
+  subTitle: String;
   attributes: number[];
   component: ComponentModel = new ComponentModel();
   paramNameClass: string = "paramName";
+  qrResponse: string;
+  scanSub;
+  
 
-  constructor(private menuCtrl: MenuController, private router: Router, private route: ActivatedRoute) {
-    
+  constructor(private menuCtrl: MenuController, private router: Router, private route: ActivatedRoute, private qrScanner: QRScanner,public toastController: ToastController ) {
+
+  
     this.route.params.subscribe(params => {
       
       let id = params['id'];
@@ -28,9 +36,12 @@ export class DeviceDetailsPage implements OnInit {
         this.title = title;
       }
       if(id) {
+        this.subTitle = id;
         //make request and update variables
         
       }
+      console.log(params);
+      
 
       const response = this.simulateResponseById();
       this.configureComponent(response);
@@ -143,5 +154,62 @@ export class DeviceDetailsPage implements OnInit {
 
     return true;
   }
+
+  scan() {
+
+    // Optionally request the permission early
+    this.qrScanner.prepare()
+    .then((status: QRScannerStatus) => {
+      if (status.authorized) {
+        // camera permission was granted
+
+
+        // start scanning
+        this.scanSub = this.qrScanner.scan().subscribe((text: string) => {
+          this.presentToast(text);
+          this.qrResponse = text;
+          
+          
+          this.closeScan();
+
+          // this.qrScanner.hide(); // hide camera preview
+          // this.scanSub.unsubscribe(); // stop scanning
+        });
+
+        this.qrScanner.show();
+        // hide app background
+        const rootElement = <HTMLElement>document.getElementsByTagName('html')[0];
+        rootElement.classList.add('qr-scanner-open');
+
+      } else if (status.denied) {
+        this.qrScanner.openSettings();
+        // camera permission was permanently denied
+        // you must use QRScanner.openSettings() method to guide the user to the settings page
+        // then they can grant the permission from there
+      } else {
+        // permission was denied, but not permanently. You can ask for permission again at a later time.
+      }
+    })
+    .catch((e: any) => console.log('Error is', e));
+
+    }
+
+  closeScan() {
+
+    this.qrScanner.hide();
+    this.scanSub.unsubscribe();
+
+    const rootElement = <HTMLElement>document.getElementsByTagName('html')[0];
+    rootElement.classList.remove('qr-scanner-open');
+  }
+
+  async presentToast(message) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 5000
+    });
+    toast.present();
+  }
+
 
 }
