@@ -113,21 +113,6 @@ export class DeviceDetailsPage implements OnInit {
       "alerted": true,
       "lastUpdate": "2018-02-10T09:30Z",
       "componentId": 88
-      },
-      {
-      "id": 72,
-      "code": "some text",
-      "name": "Vazão de resíduo pastoso (coprocessamento)",
-      "unit": "pressao",
-      "displayFormat": { },
-      "values": [2, 5],
-      "threshold_hh": 37.92,
-      "threshold_h": 72.81,
-      "threshold_ll": 46.68,
-      "threshold_l": 20.17,
-      "alerted": true,
-      "lastUpdate": "2018-02-10T09:30Z",
-      "componentId": 88
       }
       
       ]

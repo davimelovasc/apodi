@@ -2,7 +2,7 @@
 
     <ion-menu>
       <ion-header>
-        <ion-toolbar>
+        <ion-toolbar color="primary">
           <ion-title>Menu</ion-title>
         </ion-toolbar>
       </ion-header>
@@ -20,7 +20,7 @@
             
               <ion-item [routerDirection]="'root'" [routerLink]="['/'+p.url, p.title]">
                 <!-- <ion-icon slot="start" [name]="p.icon"></ion-icon> -->
-                <ion-label>
+                <ion-label class="fatherItemLbl">
                   {{p.title}}
                 </ion-label>
               </ion-item>
@@ -32,7 +32,7 @@
             <ion-icon slot="end" name="arrow-up" *ngIf="p.open"></ion-icon> 
             <ion-icon slot="end" name="arrow-down" *ngIf="!p.open"></ion-icon> 
             <!-- <ion-icon slot="start" [name]='p.icon'></ion-icon> -->
-            <ion-label>{{ p.title }}</ion-label>
+            <ion-label class="fatherItemLbl">{{ p.title }}</ion-label>
           </ion-item>
 
           <!-- Children List for clicked Item -->
@@ -48,6 +48,15 @@
 
             
           
+          </div>
+
+          <div>
+            <ion-item [routerDirection]="'root'" (click)="logout()">
+              <!-- <ion-icon slot="start" [name]="p.icon"></ion-icon> -->
+              <ion-label class="fatherItemLbl">
+                Sair
+              </ion-label>
+            </ion-item>
           </div>
         </ion-list>
       

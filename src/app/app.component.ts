@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Platform, NavController, MenuController } from '@ionic/angular';
+import { Platform, MenuController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class AppComponent {
 
 
-  // TODO substituir pelos ids
+  // TODO substituir pelos ids. Colocar no arquivo das constantes?
   CY01 = "ciclone01";
   FORNO = "PD1";
   MANCAL_B11 = "MANCALB11"
@@ -199,10 +199,6 @@ export class AppComponent {
     {
       title: 'Duto de ar terciário',
       url: `/device-details/${this.MANCAL_B11}`
-    },
-    {
-      title: 'Sair',
-      url: `/device-details/${this.MANCAL_B11}`
     }
   ];
 
@@ -227,6 +223,12 @@ export class AppComponent {
 
       
     });
+  }
+
+  logout() {
+    //invalid token request
+    this.router.navigateByUrl('/login');
+    this.menuCtrl.enable(false);
   }
 
 }

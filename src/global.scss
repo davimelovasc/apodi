@@ -12,6 +12,7 @@
 
 @import url('https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700&display=swap');
 
+// GLOBAL
 *, html {
     font-family: 'Quicksand', sans-serif !important;
 }
@@ -26,6 +27,15 @@
     }
 }
 
+ion-content {
+    // background of app
+    --ion-background-color:#DADDCE;
+}
+
+ion-card {
+    --background: #000;
+}
+
 .mask-text {
     -webkit-text-security: disc;
     -moz-webkit-text-security: disc;
@@ -36,10 +46,16 @@
 .forgotPassModal .modal-wrapper {
     --height: 50vh;
 }
+
+// SIDE MENU
  
 .sub-item {
     padding-left: 20px;
     font-size: small;
+}
+
+ion-label.fatherItemLbl {
+    font-weight: 500;
 }
 
 .noPad {
@@ -47,7 +63,7 @@
 }
 
 
-// QR CODE
+// QR CODE CAMERA
 
 #close-scanner-button {
     display: none;
@@ -75,6 +91,8 @@ html.qr-scanner-open {
         display: block;
     }
 }
+
+// QR BUTTON
 
 #qrButton {
     position: fixed;
