@@ -48,6 +48,22 @@ ion-card {
 }
 
 // SIDE MENU
+
+ion-menu {
+    ion-list {
+        --ion-background-color: var(--ion-color-primary);
+        --ion-text-color: var(--ion-color-primary-contrast);
+
+        ion-icon {
+            color: #fff;
+        }
+    }
+    
+
+    ion-list {/* optional, but it needs when you use gradient as a background color.*/
+        background: transparent;
+    }
+}  
  
 .sub-item {
     padding-left: 20px;

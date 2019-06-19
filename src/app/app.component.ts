@@ -4,6 +4,7 @@ import { Platform, MenuController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
+import { Constants } from './models/constants';
 
 @Component({
   selector: 'app-root',
@@ -11,11 +12,12 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
 
-
+  
   // TODO substituir pelos ids. Colocar no arquivo das constantes?
   CY01 = "ciclone01";
   FORNO = "PD1";
-  MANCAL_B11 = "MANCALB11"
+  MANCAL_B11 = "MANCALB11";
+
 
   public appPages = [
     {

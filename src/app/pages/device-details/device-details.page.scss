@@ -14,10 +14,28 @@
 }
 
 .paramItem {
-    width: 70px;
     height: 70px;
+    width: 60px;
     color: #000;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
 }
+
+// .paramItem.mbar {
+//     min-width: 40px;
+//     min-height: 40px;
+//     max-height: 55px;
+//     max-width: 55px;
+// }
+
+// .paramItem.ppm {
+//     min-width: 60px;
+//     min-height: 60px;
+//     max-height: 75px;
+//     max-width: 75px;
+//     height: ;
+// }
 
 .paramName {
     font-size: 2rem;
@@ -44,3 +62,41 @@
 .mtRows:not(:first-child) {
     margin-top: 2.5vh;
 }
+
+
+// PARAM STATUS
+
+.higher-high, .lower-low {
+    color: var(--ion-color-danger,#f04141);
+}
+
+.high, .low {
+    color: var(--ion-color-warning,#FFA100);
+}
+
+span[class*="high"]::after, span[class*="low"]::after {
+    content: ' ';
+    margin-left: 6px;
+    background-size: 16px 16px;
+    height: 16px;
+    width: 16px;
+    display: inline-block;
+    position: relative;
+}
+
+.higher-high::after {
+    background-image: url('../../../assets/icon/param_higher_high.svg');
+}
+
+.high::after {
+    background-image: url('../../../assets/icon/param_high.svg');
+}
+
+.low::after {
+    background-image: url('../../../assets/icon/param_low.svg');
+}
+
+.lower-low::after  {
+    background-image: url('../../../assets/icon/param_lower_low.svg');
+}
+
