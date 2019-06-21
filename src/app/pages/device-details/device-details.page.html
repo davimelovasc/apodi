@@ -25,17 +25,18 @@
             
               <ion-row *ngFor="let param of component.parameters" class="mtRows">
                 <!-- <div ngIf param.type == 'normal'?> -->
-                  <ion-col size="2" > <!-- REFATORAR size (xs, md, lg, xl) -->
+                  <!--<ion-col sizeXs="3" sizeLg="1" class="d-none d-md" >
                     <ion-icon [src]="decideIcon(param.unit)" class="paramItem {{param.unit}}"></ion-icon>
-                  </ion-col>
+                  </ion-col> -->
 
-                  <ion-col size="8" class="alignBase">
+                  <ion-col sizeXs="12" sizeLg="9" class="">
+                    <ion-icon [src]="decideIcon(param.unit)" class="paramItem {{param.unit}}"></ion-icon>
                     <span class="paramName" *ngIf="checkSize(param.name)">{{param.name}}: </span>
 
                     <span class="paramName smaller" *ngIf="!checkSize(param.name)">{{param.name}}: </span>
                   </ion-col>
 
-                  <ion-col class="alignBase">
+                  <ion-col sizeXs="12" sizeLg="3">
                     <span [class]="defParamClass(param)">{{param.values[0]}} {{param.unit}}</span> <!-- refatorar params.values[0]-->
                   </ion-col>
                 

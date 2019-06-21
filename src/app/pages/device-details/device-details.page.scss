@@ -14,12 +14,16 @@
 }
 
 .paramItem {
-    height: 70px;
-    width: 60px;
+    //height: 70px;
+    //width: 60px;
     color: #000;
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
+    //margin-left: auto;
+    //margin-right: auto;
+    //display: flex;
+
+    font-size: 3rem;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 // .paramItem.mbar {
@@ -38,9 +42,11 @@
 // }
 
 .paramName {
-    font-size: 2rem;
-    margin-left: 4vw;
+    font-size: 3.4rem; 
+    margin-left: 2vw;
     color: #000;
+    display: inline-block;
+    vertical-align: middle;
     
 }
 
