@@ -6,7 +6,8 @@
 }
 
 .forgotPassModal .modal-wrapper {
-    --height: 50vh;
+    // --height: 50vh;
+    // min-height: 375px;
 }
 
 .forgotPassForm {
@@ -20,3 +21,12 @@
 ion-button[type='submit'] {
     margin-top: 5vh;
 }
+
+
+// SM ou menor
+@media (max-width: 767.98px) {
+   
+  
+    
+}
+

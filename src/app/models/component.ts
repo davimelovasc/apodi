@@ -12,6 +12,13 @@ export class Component {
         }
 
 
+    isAlerted(): boolean {
+        this.parameters.forEach(param => {
+            if(param.alerted) return true;
+        });
+
+        return false;
+    }
 
 
 }

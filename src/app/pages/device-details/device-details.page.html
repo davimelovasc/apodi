@@ -29,14 +29,14 @@
                     <ion-icon [src]="decideIcon(param.unit)" class="paramItem {{param.unit}}"></ion-icon>
                   </ion-col> -->
 
-                  <ion-col sizeXs="12" sizeLg="9" class="">
+                  <ion-col sizeXs="12" sizeSm="8" sizeLg="9" class="">
                     <ion-icon [src]="decideIcon(param.unit)" class="paramItem {{param.unit}} d-none d-md"></ion-icon>
                     <span class="paramName" *ngIf="checkSize(param.name)">{{param.name}}: </span>
 
                     <span class="paramName smaller" *ngIf="!checkSize(param.name)">{{param.name}}: </span>
                   </ion-col>
 
-                  <ion-col sizeXs="12" sizeLg="3">
+                  <ion-col sizeXs="12" sizeSm="4" sizeLg="3">
                     <span [class]="defParamClass(param)">{{param.values[0]}} {{param.unit}}</span> <!-- refatorar params.values[0]-->
                   </ion-col>
                 

@@ -44,7 +44,8 @@ ion-card {
 
 
 .forgotPassModal .modal-wrapper {
-    --height: 50vh;
+    max-height: 400px;
+    // --height: 50vh;
 }
 
 // SIDE MENU
@@ -73,6 +74,31 @@ ion-menu {
 ion-label.fatherItemLbl {
     font-weight: 500;
 }
+
+.lightBg {
+    --background: #4a524b !important;
+}
+
+#profile {
+    width: 100%;
+    //height: 60px;
+    background-color: #4a524b;
+    color: var(--ion-color-light);
+    padding-left: 16px;
+    display: block;
+
+    
+        span {
+            display: inline-block;
+            line-height: 2;
+        }
+    
+}
+
+.alertedIcon {
+    margin-right: 10px;
+}
+
 
 .noPad {
     padding: 0 !important;
@@ -123,8 +149,23 @@ html.qr-scanner-open {
 .d-none {
     display: none;
 }
+
+
+
+// MD ou Maoir
 @media (min-width: 767.98px) {
     .d-md {
         display: inline-block !important;
     }
- }
+}
+
+// SM ou menor
+@media (max-width: 767.98px) {
+    span.paramName, span.paramValue {
+        font-size: 1.5rem !important;
+    }
+
+
+}
+
+ 

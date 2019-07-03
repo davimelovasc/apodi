@@ -1,9 +1,54 @@
+import { MenuSubItem } from './menuSubItem';
+import { MenuItem } from './menuItem';
+
 export class FakeRequests {
     
     constructor(){}
 
 
-    static loginRequest() {
+    static loginRequest():any {
+        let response = `{
+            "components": [
+                {
+                    "id": "BR_RO",
+                    "name": "Britador de rolos",
+                    "alerted": false,
+                    "seq": 3
+                },
+                {
+                    "id": "CAL01",
+                    "name": "Calcinador",
+                    "alerted": false,
+                    "seq": 4
+                },
+                {
+                    "id": "TAD01",
+                    "name": "Duto de ar terceário",
+                    "alerted": true,
+                    "seq": 2
+                },
+                {
+                    "name": "Ciclones",
+                    "seq": 1,
+                    "subcomponents": [
+                        {
+                            "seq": 1,
+                            "name": "Ciclone 01",
+                            "alerted": true,
+                            "id": "CY01"
+                        },
+                        {
+                            "seq": 2,
+                            "name": "Ciclone 02",
+                            "alerted": false,
+                            "id": "CY02"
+                        }
+                    ]
+                }
+            ]
+        }`
+    response = JSON.parse(response);
+    return response;
 
     }
 
@@ -61,11 +106,45 @@ export class FakeRequests {
                 "alerted": true,
                 "lastUpdate": "2018-02-10T09:30Z",
                 "componentId": 1
+            },
+            {
+                "id": 75,
+                "code": "PD1GAA01A01A01",
+                "name": "Monóxido de carbono",
+                "unit": "%",
+                "displayFormat": "point",
+                "values": [
+                    2
+                ],
+                "threshold_hh": 7,
+                "threshold_h": 6,
+                "threshold_ll": 1,
+                "threshold_l": 4,
+                "alerted": true,
+                "lastUpdate": "2018-02-10T09:30Z",
+                "componentId": 1
+            },
+            {
+                "id": 71,
+                "code": "PD1GAA01A01A01",
+                "name": "Monóxido de carbono",
+                "unit": "A",
+                "displayFormat": "point",
+                "values": [
+                    2
+                ],
+                "threshold_hh": 7,
+                "threshold_h": 6,
+                "threshold_ll": 1,
+                "threshold_l": 4,
+                "alerted": true,
+                "lastUpdate": "2018-02-10T09:30Z",
+                "componentId": 1
             }
             ]
             }`;
             response = JSON.parse(response);
-          return response;
+            return response;
     }
 
 

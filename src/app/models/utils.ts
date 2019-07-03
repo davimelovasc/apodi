@@ -12,6 +12,12 @@ export class Utils {
 
           case Constants.NIVEL_GAS_UNIT.toUpperCase():
             return Constants.NIVEL_GAS_ICON;
+
+          case Constants.PERCENTUAL_UNIT.toUpperCase():
+            return Constants.PERCENTUAL_ICON;
+
+          case Constants.CORRENTE_UNIT.toUpperCase():
+            return Constants.CORRENTE_ICON;
         }
     }
 

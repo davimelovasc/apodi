@@ -49,7 +49,7 @@ export class Parameter {
     //     component_id?: number
     // ){
     //     this.values = new Array<number>();
-    //     console.log(values);
+    //     
         
     //     values.forEach(val => {
     //         this.values.push(val);
@@ -61,7 +61,7 @@ export class Parameter {
     status() {
         // check if param is graphical or simple value
         let value = this.values[0];
-
+        if(!this.alerted) return "not alerted";
         if(value >= this.threshold_hh) { // HH
             return "higher-high";
         } else if(value < this.threshold_hh && value >= this.threshold_h) { // H

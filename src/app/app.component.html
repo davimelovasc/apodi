@@ -2,13 +2,27 @@
 
     <ion-menu>
       <ion-header>
-        <ion-toolbar color="primary">
-          <ion-title>Menu</ion-title>
+        <ion-toolbar class="lightBg">
+          <ion-title class="noPad">
+            <div id="profile">
+         
+              <span class="name">João Paulo Queiroz</span><br/>
+              <span class="registry">168752</span>
+            
+          </div>
+          </ion-title>
         </ion-toolbar>
       </ion-header>
 
 
       <ion-content>
+
+        <!-- <div id="profile">
+         
+            <span class="name">João Paulo Queiroz</span><br/>
+            <span class="registry">168752</span>
+          
+        </div> -->
        
         <ion-list>
 
@@ -19,7 +33,7 @@
           <ion-menu-toggle auto-hide="false" *ngIf="p.url">
             
               <ion-item [routerDirection]="'root'" [routerLink]="['/'+p.url, p.title]">
-                <!-- <ion-icon slot="start" [name]="p.icon"></ion-icon> -->
+                <ion-icon *ngIf="isAlerted(p.id)" src="assets/icon/alert.svg" class="alertedIcon" ></ion-icon>
                 <ion-label class="fatherItemLbl">
                   {{p.title}}
                 </ion-label>
@@ -29,6 +43,7 @@
 
           <!-- Item with Children -->
           <ion-item button *ngIf="p.children?.length > 0" (click)="p.open = !p.open" [class.parent-active]="p.open" detail="false">
+            <ion-icon *ngIf="childrenWithAlert(p.children)" src="assets/icon/alert.svg" class="alertedIcon" ></ion-icon>
             <ion-icon slot="end" name="arrow-up" *ngIf="p.open"></ion-icon> 
             <ion-icon slot="end" name="arrow-down" *ngIf="!p.open"></ion-icon> 
             <!-- <ion-icon slot="start" [name]='p.icon'></ion-icon> -->
@@ -39,6 +54,7 @@
           <ion-list *ngIf="p.open" class="noPad">
               <ion-menu-toggle>
                 <ion-item *ngFor="let sub of p.children" class="sub-item" [routerLink]="['/'+sub.url, sub.title]" routerDirection="root"  routerLinkActive="active" >
+                  <ion-icon *ngIf="isAlerted(sub.id)" src="assets/icon/alert.svg" class="alertedIcon" ></ion-icon>
                   <ion-label>
                     {{ sub.title }}
                   </ion-label>

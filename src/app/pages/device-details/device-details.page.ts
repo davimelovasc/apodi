@@ -10,6 +10,7 @@ import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { ToastController } from '@ionic/angular';
 import { Utils } from 'src/app/models/utils';
 import { FakeRequests } from 'src/app/models/fakeRequests';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-device-details',
@@ -27,7 +28,8 @@ export class DeviceDetailsPage implements OnInit {
   scanSub;
   
 
-  constructor(private menuCtrl: MenuController, private router: Router, private route: ActivatedRoute, private qrScanner: QRScanner,public toastController: ToastController ) {
+  constructor(private menuCtrl: MenuController, private router: Router, private route: ActivatedRoute,
+              private qrScanner: QRScanner,public toastController: ToastController, private storage: Storage ) {
 
   
     this.route.params.subscribe(params => {
@@ -40,15 +42,31 @@ export class DeviceDetailsPage implements OnInit {
       }
       if(id) {
         this.subTitle = id;
+        let response;
+        this.storage.get(`${id}_cache`).then(val => {
+          if(val) {
+            response = val;
+            console.log("valor está presente no banco");
+          } else {
+            response = this.simulateResponseById(); //TODO_REQUEST ... no fim, guarda no banco
+            storage.set(`${response.code}_cache`, response).then(() => {
+              setTimeout(() => {
+                this.storage.remove(`${response.code}_cache`).then(() => console.log("Dado obsoleto removido com sucesso"));
+              }, Constants.OBSOLATE_TIME);
+            });
+            console.log("valor nao esta no banco, foi cacheado");
+            
+          }
+          this.configureComponent(response);
+        });
+
         //make request and update variables
         
       }
-      console.log(params);
       
 
-      const response = this.simulateResponseById();
-      this.configureComponent(response);
-      console.log(this.component);
+      
+     
       
       
     });
