@@ -8,6 +8,7 @@ import { Constants } from './models/constants';
 import { FakeRequests } from './models/fakeRequests';
 import { MenuSubItem } from './models/menuSubItem';
 import { MenuItem } from './models/menuItem';
+import { AuthenticationService } from './services/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -208,7 +209,8 @@ export class AppComponent {
     private statusBar: StatusBar,
     private router: Router,
     private menuCtrl: MenuController,
-    private storage: Storage
+    private storage: Storage,
+    private authenticationService: AuthenticationService
   ) {
     this.initializeApp();
     // check user is logged in
@@ -223,6 +225,15 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
+
+      this.authenticationService.authenticationState.subscribe(state => {
+        if (state) {
+          this.router.navigate(['dashboard/Mapa']);
+        } else {
+          this.router.navigate(['login']);
+        }
+      });
 
       let menuItems = FakeRequests.loginRequest(); // REQUEST_TODO
       menuItems = menuItems.components;

@@ -10,6 +10,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
+import { HttpClientModule }    from '@angular/common/http';
+
 import { QRScanner } from '@ionic-native/qr-scanner/ngx';
 
 
@@ -22,7 +24,8 @@ import { QRScanner } from '@ionic-native/qr-scanner/ngx';
     BrowserModule,
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [
     StatusBar,

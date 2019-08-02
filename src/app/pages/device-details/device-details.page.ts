@@ -21,7 +21,6 @@ export class DeviceDetailsPage implements OnInit {
 
   title: String;
   subTitle: String;
-  attributes: number[];
   component: ComponentModel = new ComponentModel();
   paramNameClass: string = "paramName";
   qrResponse: string;
@@ -40,7 +39,7 @@ export class DeviceDetailsPage implements OnInit {
       if(title) {
         this.title = title;
       }
-      if(id) {
+      if(id) { // checa se tem no banco local
         this.subTitle = id;
         let response;
         this.storage.get(`${id}_cache`).then(val => {
@@ -54,13 +53,13 @@ export class DeviceDetailsPage implements OnInit {
                 this.storage.remove(`${response.code}_cache`).then(() => console.log("Dado obsoleto removido com sucesso"));
               }, Constants.OBSOLATE_TIME);
             });
-            console.log("valor nao esta no banco, foi cacheado");
+            console.log("valor nao estava no banco, foi cacheado");
             
           }
-          this.configureComponent(response);
+          this.configureComponent(response); // Atualiza as variaveis na tela
         });
 
-        //make request and update variables
+        
         
       }
       
