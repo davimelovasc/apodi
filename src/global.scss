@@ -115,7 +115,7 @@ html.qr-scanner-open {
 
     ion-app,
     ion-content {
-        height: 55px !important;
+        height: 50px !important;
         
     }
 
@@ -150,6 +150,17 @@ html.qr-scanner-open {
     display: none;
 }
 
+
+// toast
+.dangerToast {
+    --background: rgba(255,175,180,0.9);
+    color: #000;
+
+}
+
+.checkButton {
+
+}
 
 
 // MD ou Maoir

@@ -34,7 +34,7 @@ export class FakeRequests {
                         {
                             "seq": 1,
                             "name": "Ciclone 01",
-                            "alerted": true,
+                            "alerted": false,
                             "id": "CY01"
                         },
                         {

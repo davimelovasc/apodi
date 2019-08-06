@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { Platform, MenuController } from '@ionic/angular';
+import { Platform, MenuController, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
@@ -19,188 +19,6 @@ export class AppComponent {
   public alertedComponents: Array<String> = new Array<String>();
 
   public appPages = [];
-    // {
-    //   title: 'Dashboard',
-    //   url: '/dashboard',
-    // },
-    // {
-    //   title: 'Forno e mancais',
-    //   children: [ 
-    //     {
-    //       title: 'Forno',
-    //       url: `/device-details/${this.FORNO}`
-    //     },
-    //     {
-    //       title: 'Mancal B11',
-    //       url: `/device-details/${this.MANCAL_B11}`
-    //     },
-    //     {
-    //       title: 'Mancal B12',
-    //       url: `/device-details/${this.MANCAL_B11}`
-    //     },
-    //     {
-    //       title: 'Mancal B13',
-    //       url: `/device-details/${this.MANCAL_B11}`
-    //     },
-    //     {
-    //       title: 'Mancal B14',
-    //       url: `/device-details/${this.MANCAL_B11}`
-    //     },
-    //     {
-    //       title: 'Mancal B21',
-    //       url: `/device-details/${this.MANCAL_B11}`
-    //     },
-    //     {
-    //       title: 'Mancal B22',
-    //       url: `/device-details/${this.MANCAL_B11}`
-    //     },
-    //     {
-    //       title: 'Mancal B23',
-    //       url: `/device-details/${this.MANCAL_B11}`
-    //     },
-    //     {
-    //       title: 'Mancal B24',
-    //       url: `/device-details/${this.MANCAL_B11}`
-    //     },
-    //     {
-    //       title: 'Mancal B31',
-    //       url: `/device-details/${this.MANCAL_B11}`
-    //     },
-    //     {
-    //       title: 'Mancal B32',
-    //       url: `/device-details/${this.MANCAL_B11}`
-    //     },
-    //     {
-    //       title: 'Mancal B33',
-    //       url: `/device-details/${this.MANCAL_B11}`
-    //     },
-    //     {
-    //       title: 'Mancal B34',
-    //       url: `/device-details/${this.MANCAL_B11}`
-    //     },
-    //     {
-    //       title: 'Primeira Aliança',
-    //       url: `/device-details/${this.MANCAL_B11}`
-    //     },
-    //     {
-    //       title: 'Uni. de lubrificação da coroa',
-    //       url: `/device-details/${this.MANCAL_B11}`
-    //     }
-    //   ]
-    // },
-    // {
-    //   title: 'Motor do forno',
-    //   url: `/device-details/${this.MANCAL_B11}`
-    // },
-    // {
-    //   title: 'Arrastador',
-    //   url: `/device-details/${this.MANCAL_B11}`
-    // },
-    // {
-    //   title: 'Resfriador',
-      
-    //   url: `/device-details/${this.MANCAL_B11}`
-    // },
-    // {
-    //   title: 'Maçarico principal',
-    //   url: `/device-details/${this.MANCAL_B11}`
-    // },
-    // {
-    //   title: 'Ventiladores do resfriador',
-      
-    //   children: [
-    //     {
-    //       title: 'FN 7',
-    //       url: `/device-details/${this.CY01}`
-    //     },
-    //     {
-    //       title: 'FN 5',
-    //       url: `/device-details/${this.CY01}`
-    //     },
-    //     {
-    //       title: 'FN 6',
-    //       url: `/device-details/${this.CY01}`
-    //     },
-    //     {
-    //       title: 'FN 8',
-    //       url: `/device-details/${this.CY01}`
-    //     },
-    //     {
-    //       title: 'FN 9',
-    //       url: `/device-details/${this.CY01}`
-    //     },
-    //     {
-    //       title: 'FN 10',
-    //       url: `/device-details/${this.CY01}`
-    //     },
-    //     {
-    //       title: 'FN 11',
-    //       url: `/device-details/${this.CY01}`
-    //     },
-    //     {
-    //       title: 'FN 12',
-    //       url: `/device-details/${this.CY01}`
-    //     }
-    //   ]
-    // },
-    // {
-    //   title: 'Britador de rolos',
-    //   url: `/device-details/${this.MANCAL_B11}`
-    // },
-    // {
-    //   title: 'Ventilador de ar da co-geração',
-    //   url: `/device-details/${this.MANCAL_B11}`
-    // },
-    // {
-    //   title: 'Cabeçote',
-    //   url: `/device-details/${this.MANCAL_B11}`
-    // },
-    // {
-    //   title: 'Ciclones',
-      
-    //   children: [ 
-    //     {
-    //       title: 'Ciclone 1',
-    //       url: `/device-details/${this.CY01}`
-    //     },
-    //     {
-    //       title: 'Ciclone 2',
-    //       url: `/device-details/${this.CY01}`
-    //     },
-    //     {
-    //       title: 'Ciclone 3',
-    //       url: `/device-details/${this.CY01}`
-    //     },
-    //     {
-    //       title: 'Ciclone 4',
-    //       url: `/device-details/${this.CY01}`
-    //     },
-    //     {
-    //       title: 'Ciclone 5',
-    //       url: `/device-details/${this.CY01}`
-    //     }
-    //   ]
-    // },
-    // {
-    //   title: 'Ventilador da torre de ciclones',
-    //   url: `/device-details/${this.MANCAL_B11}`
-    // },
-    // {
-    //   title: 'Calcinador',
-    //   url: `/device-details/${this.MANCAL_B11}`
-    // },
-    // {
-    //   title: 'Caixa de fumaça',
-    //   url: `/device-details/${this.MANCAL_B11}`
-    // },
-    // {
-    //   title: 'Analisador de gases da saída da torre',
-    //   url: `/device-details/${this.MANCAL_B11}`
-    // },
-    // {
-    //   title: 'Duto de ar terciário',
-    //   url: `/device-details/${this.MANCAL_B11}`
-    // }
   
 
   constructor(
@@ -210,13 +28,17 @@ export class AppComponent {
     private router: Router,
     private menuCtrl: MenuController,
     private storage: Storage,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    public toastController: ToastController
   ) {
     this.initializeApp();
+    setTimeout(() => {
+      this.createAlertMessage("CY01", "Ciclone 01") //just for test
+    }, 3000)
     // check user is logged in
       // if false
-    this.menuCtrl.enable(false);
-    this.router.navigateByUrl('/login');
+    //this.menuCtrl.enable(false);
+    //this.router.navigateByUrl('/login');
 
     
   }
@@ -229,8 +51,10 @@ export class AppComponent {
 
       this.authenticationService.authenticationState.subscribe(state => {
         if (state) {
+          this.menuCtrl.enable(true)
           this.router.navigate(['dashboard/Mapa']);
         } else {
+          this.menuCtrl.enable(false)
           this.router.navigate(['login']);
         }
       });
@@ -291,8 +115,36 @@ export class AppComponent {
 
   logout() {
     //invalid token request
-    this.router.navigateByUrl('/login');
-    this.menuCtrl.enable(false);
+    this.authenticationService.logout()
+  }
+
+
+  
+  async createAlertMessage(component_id, component_name) {
+    const toast = await this.toastController.create({
+      header: 'Atenção',
+      message: `O componente ${component_name} possui atributos com valores fora do recomendável`,
+      position: 'top',
+      cssClass: 'dangerToast',
+      buttons: [
+        {
+          text: 'Verificar',
+          cssClass: 'checkButton',
+          handler: () => {
+            this.router.navigateByUrl(`/device-details/${component_id}/${component_name}`)
+            console.log('Verificar clicked');
+          }
+        }
+        // }, {
+        //   text: 'Dispensar',
+        //   role: 'cancel',
+        //   handler: () => {
+        //     console.log('Dispensar clicked');
+        //   }
+        // }
+      ]
+    });
+    toast.present();
   }
 
 }
