@@ -16,4 +16,9 @@ export class Constants {
     // tempo para tornar o dado em cache obsoleto
     public static OBSOLATE_TIME = 5000;
 
+
+    public static BASE_API_URL = "http://172.18.9.84:8080"
+
+    public static TOKEN_CODE = "token"
+
 }

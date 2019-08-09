@@ -11,6 +11,7 @@ import { ToastController } from '@ionic/angular';
 import { Utils } from 'src/app/models/utils';
 import { FakeRequests } from 'src/app/models/fakeRequests';
 import { Storage } from '@ionic/storage';
+import { DeviceService } from 'src/app/services/device.service';
 
 @Component({
   selector: 'app-device-details',
@@ -28,7 +29,8 @@ export class DeviceDetailsPage implements OnInit {
   
 
   constructor(private menuCtrl: MenuController, private router: Router, private route: ActivatedRoute,
-              private qrScanner: QRScanner,public toastController: ToastController, private storage: Storage ) {
+              private qrScanner: QRScanner,public toastController: ToastController, private storage: Storage,
+              private deviceService: DeviceService) {
 
   
     this.route.params.subscribe(params => {
@@ -113,19 +115,23 @@ export class DeviceDetailsPage implements OnInit {
   }
 
   scan() {
-    // Optionally request the permission early
     this.qrScanner.prepare()
     .then((status: QRScannerStatus) => {
       if (status.authorized) {
-        // camera permission was granted
-
-        // start scanning
         this.scanSub = this.qrScanner.scan().subscribe((text: string) => {
-          this.presentToast(text);
-          this.qrResponse = text;
+          this.storage.get('token').then( token => {
+            this.deviceService.getByQRCode("11.111",token).then(res => {  // change 11.111 for text
+              if(res){
+                this.router.navigateByUrl(`/device-details/${res['id']}/${res['name']}`)
+              }
+            })
+            this.closeScan();
+          })
+          
+        
           
           
-          this.closeScan();
+          
 
           // this.qrScanner.hide(); // hide camera preview
           // this.scanSub.unsubscribe(); // stop scanning

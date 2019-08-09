@@ -32,9 +32,12 @@ export class AppComponent {
     public toastController: ToastController
   ) {
     this.initializeApp();
-    setTimeout(() => {
-      this.createAlertMessage("CY01", "Ciclone 01") //just for test
-    }, 3000)
+
+    // setTimeout(() => {
+    //   this.createAlertMessage("CY01", "Ciclone 01") //just for test
+    // }, 3000)
+
+    
     // check user is logged in
       // if false
     //this.menuCtrl.enable(false);
