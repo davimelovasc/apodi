@@ -45,6 +45,7 @@ ion-card {
 
 .forgotPassModal .modal-wrapper {
     max-height: 400px;
+    //background-color:#DADDCE !important;
     // --height: 50vh;
 }
 
@@ -158,8 +159,13 @@ html.qr-scanner-open {
 
 }
 
-.checkButton {
+.bold {
+    font-weight: bold;
+}
 
+.dasboardIcon {
+    font-size: 42px;
+    color: #000;
 }
 
 

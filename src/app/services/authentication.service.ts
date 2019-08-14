@@ -55,4 +55,28 @@ export class AuthenticationService {
     })
   }
 
+  async refreshToken() {
+    const headers = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': 'Basic c2lhcmFfZnJvbnQ6czFAckBfczNjcjN0'
+    }
+
+    const refreshToken = await this.storage.get('refresh-token')
+
+    const body = `grant_type=refresh_token&refresh_token=${refreshToken}`
+  
+    await this.http.post(`${Constants.BASE_API_URL}/oauth/token`, body, {headers: headers}).toPromise().then( res => {
+      const newToken = res['access_token']
+      const newRefreshToken = res['refresh_token']
+
+      let promisesToResolve = [
+        this.storage.set('token', `Bearer ${newToken}`),
+        this.storage.set('refresh-token', newRefreshToken)
+      ]
+
+      return promisesToResolve
+
+    })
+  }
+
 }

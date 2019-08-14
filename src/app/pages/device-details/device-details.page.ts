@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Component as ComponentModel } from '../../models/component';
 import { Parameter } from 'src/app/models/parameter';
 import { Constants } from 'src/app/models/constants';
-
+import { LoadingController } from '@ionic/angular';
 
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { ToastController } from '@ionic/angular';
@@ -12,6 +12,7 @@ import { Utils } from 'src/app/models/utils';
 import { FakeRequests } from 'src/app/models/fakeRequests';
 import { Storage } from '@ionic/storage';
 import { DeviceService } from 'src/app/services/device.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-device-details',
@@ -30,46 +31,56 @@ export class DeviceDetailsPage implements OnInit {
 
   constructor(private menuCtrl: MenuController, private router: Router, private route: ActivatedRoute,
               private qrScanner: QRScanner,public toastController: ToastController, private storage: Storage,
-              private deviceService: DeviceService) {
+              private deviceService: DeviceService, private authenticationService: AuthenticationService,
+              public loadingController: LoadingController) {
 
   
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe( async params => {
+      this.component.parameters = [] //clear Params On Screen
       
       let id = params['id'];
-      let title = params['title'];
+      //let title = params['title'];
 
-      if(title) {
-        this.title = title;
-      }
-      if(id) { // checa se tem no banco local
-        this.subTitle = id;
+      // if(title) {
+      //   this.title = title;
+      // }
+      if(id) { 
+        //this.subTitle = id;
         let response;
-        this.storage.get(`${id}_cache`).then(val => {
-          if(val) {
-            response = val;
-            console.log("valor está presente no banco");
-          } else {
-            response = this.simulateResponseById(); //TODO_REQUEST ... no fim, guarda no banco
-            storage.set(`${response.code}_cache`, response).then(() => {
-              setTimeout(() => {
-                this.storage.remove(`${response.code}_cache`).then(() => console.log("Dado obsoleto removido com sucesso"));
-              }, Constants.OBSOLATE_TIME);
-            });
-            console.log("valor nao estava no banco, foi cacheado");
-            
-          }
-          this.configureComponent(response); // Atualiza as variaveis na tela
-        });
+        await this.presentLoading()
+        //this.storage.get(`${id}_cache`).then( val => { // checa se tem no banco local
+          // if(val) {
+          //   this.configureComponent(val); // Atualiza as variaveis na tela
+          // } else {
+          //   id = "2" //APAGAR, APENAS PARA TESTE
+            this.getComponentById(id).then( res => {
+              response = res
+              //this.cacheResponse(response)
+              this.configureComponent(response) // Atualiza as variaveis na tela
+            }, err => {
+              if(err.status == 401) {
+                this.authenticationService.refreshToken().then( data => { // refresh token
 
-        
-        
+                  this.getComponentById(id).then(res => {
+                    response = res
+                    //this.cacheResponse(response)
+                    this.configureComponent(response) // Atualiza as variaveis na tela
+                    
+                  }, err => {
+                    this.router.navigateByUrl('/login')
+                  })
+                })
+              }
+              
+            })    
+          //}
+
+          this.loadingController.dismiss();
+
+        //});
+
       }
-      
 
-      
-     
-      
-      
     });
 
    }
@@ -77,6 +88,14 @@ export class DeviceDetailsPage implements OnInit {
   ngOnInit() {
     this.menuCtrl.enable(true);
 
+  }
+
+  async cacheResponse(response) {
+    return await this.storage.set(`${response.code}_cache`, response).then(() => { //${response.code}_cache
+      setTimeout(() => {
+        this.storage.remove(`${response.code}_cache`)
+      }, Constants.OBSOLATE_TIME);
+    });
   }
 
   decideIcon(unit){
@@ -87,13 +106,18 @@ export class DeviceDetailsPage implements OnInit {
   //   return Utils.getUnitSimbol(unit);
   // }
 
-  simulateResponseById() {
-    return FakeRequests.getComponentById();
+  // simulateResponseById() {
+  //   return FakeRequests.getComponentById();
+  // }
+
+  getComponentById(id) {
+    return this.deviceService.getById(id)
   }
 
   configureComponent(response) {
     this.component.id = response.id;
     this.component.name = response.name;
+    this.component.code = response.code;
 
     for (let parameter of response.parameters) {
       this.component.parameters.push(new Parameter({id: parameter.id, code: parameter.code, name: parameter.name, 
@@ -107,11 +131,10 @@ export class DeviceDetailsPage implements OnInit {
   }
 
   checkSize(name: string) {
-    if(name.length > 32) {
-      return false; 
-    }
-
-    return true;
+    if(name.length > 32)
+      return false
+    
+    return true
   }
 
   scan() {
@@ -119,22 +142,25 @@ export class DeviceDetailsPage implements OnInit {
     .then((status: QRScannerStatus) => {
       if (status.authorized) {
         this.scanSub = this.qrScanner.scan().subscribe((text: string) => {
-          this.storage.get('token').then( token => {
-            this.deviceService.getByQRCode("11.111",token).then(res => {  // change 11.111 for text
-              if(res){
-                this.router.navigateByUrl(`/device-details/${res['id']}/${res['name']}`)
-              }
-            })
-            this.closeScan();
+
+          this.deviceService.getByQRCode(text).then(res => { 
+            this.router.navigateByUrl(`/device-details/${res['id']}`)
+          }, err => {
+            if(err.status == 400) {
+              this.authenticationService.refreshToken().then(res => {
+                this.deviceService.getByQRCode(text).then(res => { 
+                  this.router.navigateByUrl(`/device-details/${res['id']}`)
+                }, err => {
+                  //logout
+                })
+              })
+            } else if(err.status == 404) {
+              this.presentToast("QR code inválido")
+            }
           })
           
-        
-          
-          
-          
+          this.closeScan();
 
-          // this.qrScanner.hide(); // hide camera preview
-          // this.scanSub.unsubscribe(); // stop scanning
         });
 
         this.qrScanner.show();
@@ -174,6 +200,17 @@ export class DeviceDetailsPage implements OnInit {
   defParamClass(param: Parameter) {
     let status = param.status();
     return "paramValue " + status;
+  }
+
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Carregando',
+      duration: 5000
+    });
+
+    return await loading.present();
+
+    
   }
 
 

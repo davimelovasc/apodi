@@ -10,10 +10,10 @@
             <ion-col>
                 <form class="loginForm" (submit)="login()">
                     <ion-item>
-                      <ion-input type="tel" placeholder="Digite sua matrícula" [(ngModel)]="user.registry" name="registry" class="form-control"></ion-input>
+                      <ion-input  placeholder="Digite sua matrícula" [(ngModel)]="user.registry" name="registry" class="form-control"></ion-input> <!-- type="tel"  -->
                     </ion-item>
                     <ion-item >
-                        <ion-input type="tel" placeholder="Digite sua senha" [(ngModel)]="user.password" name="password" class="form-control mask-text"></ion-input>
+                        <ion-input placeholder="Digite sua senha" [(ngModel)]="user.password" name="password" class="form-control mask-text"></ion-input> <!-- type="tel"  -->
                     </ion-item>
                     
                     <ion-button type="submit" color="primary" class="marginTop pullRight" size="large" expand="block">Entrar</ion-button>

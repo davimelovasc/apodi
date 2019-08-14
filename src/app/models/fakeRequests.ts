@@ -10,21 +10,24 @@ export class FakeRequests {
         let response = `{
             "components": [
                 {
-                    "id": "BR_RO",
+                    "code": "BR_RO",
+                    "id": 1,
                     "name": "Britador de rolos",
                     "alerted": false,
                     "seq": 3
                 },
                 {
-                    "id": "CAL01",
+                    "code": "CAL01",
+                    "id": 2,
                     "name": "Calcinador",
-                    "alerted": false,
+                    "alerted": true,
                     "seq": 4
                 },
                 {
-                    "id": "TAD01",
+                    "code": "TAD01",
+                    "id": 1,
                     "name": "Duto de ar terceário",
-                    "alerted": true,
+                    "alerted": false,
                     "seq": 2
                 },
                 {
@@ -35,13 +38,15 @@ export class FakeRequests {
                             "seq": 1,
                             "name": "Ciclone 01",
                             "alerted": false,
-                            "id": "CY01"
+                            "code": "CY01",
+                            "id": 1
                         },
                         {
                             "seq": 2,
                             "name": "Ciclone 02",
-                            "alerted": false,
-                            "id": "CY02"
+                            "alerted": true,
+                            "code": "CY02",
+                            "id": 2
                         }
                     ]
                 }

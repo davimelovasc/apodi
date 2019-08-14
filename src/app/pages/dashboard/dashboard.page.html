@@ -9,4 +9,29 @@
 
 <ion-content>
 
+    <ion-list>
+      <ion-list-header *ngIf="alertedComponents.length > 0">
+        <h2>Componentes em alerta</h2>
+      </ion-list-header>
+
+      <ion-list-header *ngIf="alertedComponents.length == 0">
+        <h2>Não há componentes em alerta</h2>
+      </ion-list-header>
+
+
+      <ion-item *ngFor="let c of alertedCompWithName" [routerLink]="['/device-details/'+c.id]" routerDirection="root"  routerLinkActive="active" > <!-- make for on alertedComponentsWithName-->
+          <ion-icon slot="start" src="../../../assets/icon/alert.svg" class="dasboardIcon"></ion-icon>
+          <ion-label>
+            <h1 class="bold">{{c.name}}</h1>
+            
+          </ion-label>
+      </ion-item>
+
+
+    </ion-list>
+
+
+    <ion-button color="primary" (click)="scan()" id="qrButton">
+        <ion-icon src="../../../assets/icon/qr-code.svg" slot="start"></ion-icon>
+      </ion-button>
 </ion-content>

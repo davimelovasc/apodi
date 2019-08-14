@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { Platform, MenuController, ToastController } from '@ionic/angular';
+import { Platform, MenuController, ToastController, Events } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
@@ -9,6 +9,7 @@ import { FakeRequests } from './models/fakeRequests';
 import { MenuSubItem } from './models/menuSubItem';
 import { MenuItem } from './models/menuItem';
 import { AuthenticationService } from './services/authentication.service';
+import { DeviceService } from './services/device.service';
 
 @Component({
   selector: 'app-root',
@@ -16,9 +17,11 @@ import { AuthenticationService } from './services/authentication.service';
 })
 export class AppComponent {
 
-  public alertedComponents: Array<String> = new Array<String>();
+  public alertedComponents: Array<number> = new Array<number>();
 
   public appPages = [];
+  public refreshIntervalId;
+  public interval;
   
 
   constructor(
@@ -29,9 +32,17 @@ export class AppComponent {
     private menuCtrl: MenuController,
     private storage: Storage,
     private authenticationService: AuthenticationService,
-    public toastController: ToastController
+    public deviceService: DeviceService,
+    public toastController: ToastController,
+    public events: Events
   ) {
     this.initializeApp();
+    this.authenticationService.authenticationState.subscribe(state => {
+      if (state) {
+        this.interval = setInterval(() => {this.getAndSaveAlertedComponents()}, Constants.WATCHING_TIME)
+      }
+    })
+
 
     // setTimeout(() => {
     //   this.createAlertMessage("CY01", "Ciclone 01") //just for test
@@ -56,6 +67,7 @@ export class AppComponent {
         if (state) {
           this.menuCtrl.enable(true)
           this.router.navigate(['dashboard/Mapa']);
+
         } else {
           this.menuCtrl.enable(false)
           this.router.navigate(['login']);
@@ -76,7 +88,7 @@ export class AppComponent {
               menuItem.alerted = true;
               this.alertedComponents.push(subItem.id);
             }
-            this.storage.set(subItem.id, subItem);
+            //this.storage.set(subItem.id, subItem);
           }
           this.appPages.push(menuItem);
           //this.storage.set(menuItem.title, menuItem);
@@ -86,18 +98,35 @@ export class AppComponent {
           this.appPages.push(menuItem);
 
           if(menuItem.alerted == true) this.alertedComponents.push(menuItem.id);
-          this.storage.set(menuItem.id, menuItem);
+          //this.storage.set(menuItem.id, menuItem);
         }
       }
 
+      this.storage.set('alerted-components', this.alertedComponents)
       this.appPages = this.appPages.sort(MenuItem.compare); 
 
     });
+
+
+
+    // this.platform.pause.subscribe(() => {        
+      
+    // });  
+    // this.platform.resume.subscribe(() => { 
+    //   this.storage.get('token').then( token => {
+        
+    //   })
+      
+    //   this.authenticationService.refreshToken();  
+    //   console.log('****UserdashboardPage RESUMED****');
+    // });
 
     
   }
 
   isAlerted(id) {
+    //console.log(this.alertedComponents);
+    
     if(this.alertedComponents.includes(id))
       return true;
     else
@@ -118,15 +147,53 @@ export class AppComponent {
 
   logout() {
     //invalid token request
+    this.stopGetAlertedComponents(this.interval)
     this.authenticationService.logout()
+  }
+
+  getAndSaveAlertedComponents(retry: boolean = true) {
+    //todo refresh access token
+    this.deviceService.getAlertedComponents().then(res => {
+      if (res instanceof Array) {
+        
+        const resIds = res.map(comp => { return comp.id })
+
+        this.alertedComponents = this.alertedComponents.filter( id => { return (resIds.indexOf(id) == -1 ? false : true) }) //remove os elementos que nao estão mais em alertas
+        resIds.map( id => {
+          if(this.alertedComponents.indexOf(id) == -1) {
+            this.alertedComponents.push(id) //novo elemento
+            this.createAlertMessage(id)
+
+          }
+        })
+        this.events.publish('alerted-components:update', this.alertedComponents)
+        //this.storage.set('alerted-components', this.alertedComponents)
+
+      }
+      
+    }, err => {
+      if(err.status === 401 && retry) { //token invalida, refresh
+        this.authenticationService.refreshToken().then( res => {
+          return this.getAndSaveAlertedComponents(false)
+        })
+      } else {
+        this.logout()
+      }
+      return false
+    })
+  }
+
+  getIdAlertedComponentes() {
+    
+
   }
 
 
   
-  async createAlertMessage(component_id, component_name) {
+  async createAlertMessage(component_id) {
     const toast = await this.toastController.create({
       header: 'Atenção',
-      message: `O componente ${component_name} possui atributos com valores fora do recomendável`,
+      message: `Há novo(s) componente(s) com atributo(s) fora do recomendável`,
       position: 'top',
       cssClass: 'dangerToast',
       buttons: [
@@ -134,8 +201,7 @@ export class AppComponent {
           text: 'Verificar',
           cssClass: 'checkButton',
           handler: () => {
-            this.router.navigateByUrl(`/device-details/${component_id}/${component_name}`)
-            console.log('Verificar clicked');
+            this.router.navigateByUrl(`/dashboard/Mapa`)
           }
         }
         // }, {
@@ -148,6 +214,10 @@ export class AppComponent {
       ]
     });
     toast.present();
+  }
+
+  stopGetAlertedComponents(interval) {
+    clearInterval(interval)
   }
 
 }

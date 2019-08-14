@@ -41,7 +41,6 @@ export class LoginPage implements OnInit {
     err => {
       if(err.status == 400)
         this.presentToast('Matrícula ou senha inválida')
-      console.log(err)
     })
   }
 

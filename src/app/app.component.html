@@ -26,13 +26,22 @@
        
         <ion-list>
 
+          <div>
+              <ion-item [routerDirection]="'root'" [routerLink]="['/dashboard/Mapa']">
+                <!-- <ion-icon slot="start" [name]="p.icon"></ion-icon> -->
+                <ion-label class="fatherItemLbl">
+                  Dashboard
+                </ion-label>
+              </ion-item>
+            </div>
+
           <div *ngFor="let p of appPages" >
             
           
           <!-- Standard Menu Item -->
           <ion-menu-toggle auto-hide="false" *ngIf="p.url">
             
-              <ion-item [routerDirection]="'root'" [routerLink]="['/'+p.url, p.title]">
+              <ion-item [routerDirection]="'root'" [routerLink]="['/'+p.url]">
                 <ion-icon *ngIf="isAlerted(p.id)" src="assets/icon/alert.svg" class="alertedIcon" ></ion-icon>
                 <ion-label class="fatherItemLbl">
                   {{p.title}}
@@ -53,7 +62,7 @@
           <!-- Children List for clicked Item -->
           <ion-list *ngIf="p.open" class="noPad">
               <ion-menu-toggle>
-                <ion-item *ngFor="let sub of p.children" class="sub-item" [routerLink]="['/'+sub.url, sub.title]" routerDirection="root"  routerLinkActive="active" >
+                <ion-item *ngFor="let sub of p.children" class="sub-item" [routerLink]="['/'+sub.url]" routerDirection="root"  routerLinkActive="active" >
                   <ion-icon *ngIf="isAlerted(sub.id)" src="assets/icon/alert.svg" class="alertedIcon" ></ion-icon>
                   <ion-label>
                     {{ sub.title }}
