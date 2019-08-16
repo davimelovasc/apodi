@@ -37,7 +37,7 @@
                   </ion-col>
 
                   <ion-col sizeXs="12" sizeSm="4" sizeLg="3">
-                    <span [class]="defParamClass(param)">{{param.values[0]}} {{param.unit}}</span> <!-- refatorar params.values[0]-->
+                    <span [class]="defParamClass(param)">{{toFixed(param.values[0])}} {{param.unit}}</span> <!-- refatorar params.values[0]-->
                   </ion-col>
                 
                 <!-- < div ngIf param.type == 'grafico'>   TODO -->
