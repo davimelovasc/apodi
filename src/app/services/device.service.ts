@@ -38,5 +38,14 @@ export class DeviceService {
     return this.http.get(`${Constants.BASE_API_URL}/parameters/alertedParameters`, {headers: headers}).toPromise()
   }
 
+  async getComponents() {
+    let userToken = await this.storage.get('token')
+    const headers = {
+      'Authorization': `${userToken}`
+    }
+
+    return this.http.get(`${Constants.BASE_API_URL}/components`, {headers: headers}).toPromise()
+  }
+
 
 }

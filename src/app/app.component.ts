@@ -64,9 +64,10 @@ export class AppComponent {
 
 
       this.authenticationService.authenticationState.subscribe(state => {
-        if (state) {
+        if (state) {      
+          this.fillSideMenu()
           this.menuCtrl.enable(true)
-          this.router.navigate(['dashboard/Mapa']);
+          this.router.navigate(['dashboard/Mapa'])
 
         } else {
           this.menuCtrl.enable(false)
@@ -74,36 +75,10 @@ export class AppComponent {
         }
       });
 
-      let menuItems = FakeRequests.loginRequest(); // REQUEST_TODO
-      menuItems = menuItems.components;
+      // let menuItems = FakeRequests.loginRequest() // REQUEST_TODO
+      // menuItems = menuItems = menuItems.components;
 
-      for(let i = 0; i < menuItems.length; i++) {
-        if(menuItems[i].subcomponents) {
-          let menuItem = {title: menuItems[i].name, seq: menuItems[i].seq, alerted: false, children: []}
-          
-          for(let j=0; j < menuItems[i].subcomponents.length; j++) {
-            let subItem = menuItems[i].subcomponents[j];
-            menuItem.children.push({id: subItem.id, title: subItem.name, seq: subItem.seq, alerted: subItem.alerted, url: `/device-details/${subItem.id}`} );
-            if(subItem.alerted == true) {
-              menuItem.alerted = true;
-              this.alertedComponents.push(subItem.id);
-            }
-            //this.storage.set(subItem.id, subItem);
-          }
-          this.appPages.push(menuItem);
-          //this.storage.set(menuItem.title, menuItem);
-
-        } else {
-          let menuItem = {id: menuItems[i].id, title: menuItems[i].name, seq: menuItems[i].seq, alerted: menuItems[i].alerted, url: `/device-details/${menuItems[i].id}`}
-          this.appPages.push(menuItem);
-
-          if(menuItem.alerted == true) this.alertedComponents.push(menuItem.id);
-          //this.storage.set(menuItem.id, menuItem);
-        }
-      }
-
-      this.storage.set('alerted-components', this.alertedComponents)
-      this.appPages = this.appPages.sort(MenuItem.compare); 
+      //this.fillSideMenu()
 
     });
 
@@ -125,13 +100,10 @@ export class AppComponent {
   }
 
   isAlerted(id) {
-    //console.log(this.alertedComponents);
-    
     if(this.alertedComponents.includes(id))
-      return true;
+      return true
     else
-      return false;
-   
+      return false
   }
 
   childrenWithAlert(children: Array<any>): boolean {
@@ -218,6 +190,47 @@ export class AppComponent {
 
   stopGetAlertedComponents(interval) {
     clearInterval(interval)
+  }
+
+  async fillSideMenu() {
+    this.appPages = []
+    let menuItems = await this.deviceService.getComponents()
+    if( menuItems instanceof Array) {
+      for(let i = 0; i < menuItems.length; i++) {
+        if(menuItems[i].subComponents.length > 0) { // have subcomponents
+          let menuItem = {title: menuItems[i].name, seq: menuItems[i].order, alerted: false, children: []}
+          
+          for(let j=0; j < menuItems[i].subComponents.length; j++) {
+            let subItem = menuItems[i].subComponents[j];
+            menuItem.children.push({id: subItem.id, title: subItem.name, seq: subItem.order, alerted: subItem.alerted, url: `/device-details/${subItem.id}`} )
+            if(subItem.alerted == true) {
+              menuItem.alerted = true;
+              this.alertedComponents.push(subItem.id);
+            }
+            //this.storage.set(subItem.id, subItem);
+          }
+          menuItem.children.sort( ( a, b ) => { 
+            if ( a.seq < b.seq )
+              return -1
+            if ( a.seq > b.seq )
+              return 1
+            return 0
+          })
+          this.appPages.push(menuItem);
+          //this.storage.set(menuItem.title, menuItem);
+
+        } else {
+          let menuItem = {id: menuItems[i].id, title: menuItems[i].name, seq: menuItems[i].order, alerted: menuItems[i].alerted, url: `/device-details/${menuItems[i].id}`}
+          this.appPages.push(menuItem);
+
+          if(menuItem.alerted == true) this.alertedComponents.push(menuItem.id);
+          //this.storage.set(menuItem.id, menuItem);
+        }
+      }
+    }
+
+      this.storage.set('alerted-components', this.alertedComponents)
+      this.appPages = this.appPages.sort(MenuItem.compare); 
   }
 
 }

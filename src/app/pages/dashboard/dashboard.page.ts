@@ -16,16 +16,6 @@ export class DashboardPage implements OnInit {
   public components =[]
   public alertedCompWithName = []
 
-  // [{
-    //    id: 1,
-    //    name: "com 1"
-  // },
-  // {
-    //     id: 2,
-    //    name: "com 2"
-  // }]
-
-
   constructor(private menuCtrl: MenuController, private deviceService: DeviceService, private storage: Storage, private appComponent: AppComponent,
      public events: Events, public loadingController: LoadingController) {
     this.components = this.appComponent.appPages
