@@ -198,11 +198,15 @@ export class DeviceDetailsPage implements OnInit {
   }
 
   defParamClass(param: Parameter) {
-    let status = param.status();
+    status = ""
+    if(param) {
+      let status = param.status();
+    }
     return "paramValue " + status;
   }
 
   toFixed(num, fixed = 2) {
+    if(!num) return ""
     var re = new RegExp('^-?\\d+(?:\.\\d{0,' + (fixed || -1) + '})?');
     return num.toString().match(re)[0];
   } 

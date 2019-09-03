@@ -8,6 +8,7 @@ import { MenuItem } from './models/menuItem';
 import { AuthenticationService } from './services/authentication.service';
 import { DeviceService } from './services/device.service';
 import { AlertController } from '@ionic/angular';
+import { FakeRequests } from './models/fakeRequests';
 
 @Component({
   selector: 'app-root',
@@ -36,6 +37,11 @@ export class AppComponent {
     this.initializeApp();
     this.authenticationService.authenticationState.subscribe(state => {
       if (state) {
+        //this.getAndSaveAlertedComponents()
+        
+        //setTimeout( () => {this.getAlertedComponentsFAKE()}, 2000)
+        
+        setTimeout( () => {this.getAndSaveAlertedComponents()}, 2000)
         this.interval = setInterval(() => {this.getAndSaveAlertedComponents()}, Constants.WATCHING_TIME)
       }
     })
@@ -55,9 +61,9 @@ export class AppComponent {
           this.router.navigate(['dashboard/Mapa'])
 
         } else {
-          this.presentSetIpAndPortPrompt()
           this.menuCtrl.enable(false)
-          this.router.navigate(['login']);
+          this.router.navigate(['login'])
+          this.presentSetIpAndPortPrompt()
 
 
         }
@@ -90,19 +96,24 @@ export class AppComponent {
   }
 
   getAndSaveAlertedComponents(retry: boolean = true) {
+    let showAlert = false
     this.deviceService.getAlertedComponents().then(res => {
+      console.log("buscou alerted params")
       if (res instanceof Array) {
         
-        const resIds = res.map(comp => { return comp.id })
+        let resIds = res.map(param => { return param.componentId }) // separa somente os ids
+        const alertedIds = resIds.filter((v,i) => resIds.indexOf(v) == i) // remove ids duplicados
 
-        this.alertedComponents = this.alertedComponents.filter( id => { return (resIds.indexOf(id) == -1 ? false : true) }) //remove os elementos que nao estão mais em alertas
-        resIds.map( id => {
-          if(this.alertedComponents.indexOf(id) == -1) {
+        this.alertedComponents = this.alertedComponents.filter( id => { return (alertedIds.indexOf(id) == -1 ? false : true) }) //remove os elementos que nao estão mais em alertas
+        alertedIds.map( id => {
+          if(this.alertedComponents.indexOf(id) == -1) { //não esta dentro do meus alerted components
             this.alertedComponents.push(id) //novo elemento
-            this.createAlertMessage()
-
+            showAlert = true
           }
-        })
+
+            
+          })
+        if(showAlert) this.createAlertMessage() // mostra alerta
         this.events.publish('alerted-components:update', this.alertedComponents)
 
       }
@@ -117,6 +128,28 @@ export class AppComponent {
       }
       return false
     })
+  }
+
+
+  getAlertedComponentsFAKE() {
+    let showAlert = false
+    console.log("buscou alerted params FAKE")
+    let res: any = FakeRequests.getAlertedComponents()
+    if (res instanceof Array) {
+      let resIds = res.map(param => { return param.componentId }) // separa somente os ids
+      const alertedIds = resIds.filter((v,i) => resIds.indexOf(v) == i) // remove ids duplicados
+      console.log(alertedIds)
+      this.alertedComponents = this.alertedComponents.filter( id => { return (alertedIds.indexOf(id) == -1 ? false : true) }) //remove os elementos que nao estão mais em alertas
+      alertedIds.map( id => {
+        if(this.alertedComponents.indexOf(id) == -1) { //não esta dentro do meus alerted components
+          this.alertedComponents.push(id) //novo elemento
+          showAlert = true
+          
+        }
+      })
+      if(showAlert) this.createAlertMessage() // mostra alerta
+      this.events.publish('alerted-components:update', this.alertedComponents)
+    } 
   }
   
   async createAlertMessage() {

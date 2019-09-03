@@ -16,11 +16,11 @@ export class Constants {
     // tempo para tornar o dado em cache obsoleto
     public static OBSOLATE_TIME = 1000 * 10 //not using (seconds)
     // intervalo de tempo para mandar cada requisição para monitorar componentes em alerta
-    public static WATCHING_TIME = 1000 * 30 //seconds
+    public static WATCHING_TIME = 1000 * 30 //seconds 30
 
 
 
-    public static BASE_API_URL = "http://172.18.9.168:8080"
+    public static BASE_API_URL = "http://172.18.9.183:8080" //refatorar TODO tirar siara
 
     public static TOKEN_CODE = "token"
 
