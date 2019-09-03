@@ -3,10 +3,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Storage } from '@ionic/storage';
 import { Platform } from '@ionic/angular';
 import { Constants } from '../models/constants';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
-
-const TOKEN_KEY = 'auth-token'
 
 @Injectable({
   providedIn: 'root'

@@ -1,3 +1,5 @@
+import { Constants } from './constants';
+
 export class Parameter {
 
     id: number;
@@ -10,7 +12,7 @@ export class Parameter {
     threshold_h: number;
     threshold_ll: number;
     threshold_l: number;
-    alerted: boolean;
+    alerted: string;
     lastUpdate: Date;
     component_id: number;
 
@@ -26,7 +28,7 @@ export class Parameter {
             threshold_h?: number,
             threshold_ll?: number,
             threshold_l?: number,
-            alerted?: boolean,
+            alerted?: string,
             lastUpdate?: Date,
             component_id?: number
         }) {
@@ -59,21 +61,21 @@ export class Parameter {
     // }
 
     status() {
-        // check if param is graphical or simple value
-        let value = this.values[0];
-        if(!this.alerted) return "not alerted";
-        if(value >= this.threshold_hh) { // HH
-            return "higher-high";
-        } else if(value < this.threshold_hh && value >= this.threshold_h) { // H
-            return "high";
-        } else if(value < this.threshold_h && value > this.threshold_l ) { // NORMAL
-            return "normal";
-        } else if(value <= this.threshold_l && value > this.threshold_ll) { // L
-            return "low";
-        } else if(value <= this.threshold_ll) { //LL
-            return "lower-low";
+        // TODO check if param is graphical or simple value
+        switch(this.alerted) {
+            case Constants.ALERTED_NONE: 
+                return "normal";  
+            case Constants.ALERTED_HH: 
+                return "higher-high"
+            case Constants.ALERTED_H:
+                return "high"
+            case Constants.ALERTED_L:
+                return "low"
+            case Constants.ALERTED_LL:
+                return "lower-low"
+            default:
+                return "unknow"
         }
-        return "unknow";
     }
 
 

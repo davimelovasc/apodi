@@ -1,15 +1,13 @@
 import { Component } from '@angular/core';
-import { Storage } from '@ionic/storage';
 import { Platform, MenuController, ToastController, Events } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
 import { Constants } from './models/constants';
-import { FakeRequests } from './models/fakeRequests';
-import { MenuSubItem } from './models/menuSubItem';
 import { MenuItem } from './models/menuItem';
 import { AuthenticationService } from './services/authentication.service';
 import { DeviceService } from './services/device.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +20,6 @@ export class AppComponent {
   public appPages = [];
   public refreshIntervalId;
   public interval;
-  
 
   constructor(
     private platform: Platform,
@@ -30,11 +27,11 @@ export class AppComponent {
     private statusBar: StatusBar,
     private router: Router,
     private menuCtrl: MenuController,
-    private storage: Storage,
     private authenticationService: AuthenticationService,
     public deviceService: DeviceService,
     public toastController: ToastController,
-    public events: Events
+    public events: Events,
+    public alertController: AlertController
   ) {
     this.initializeApp();
     this.authenticationService.authenticationState.subscribe(state => {
@@ -42,18 +39,6 @@ export class AppComponent {
         this.interval = setInterval(() => {this.getAndSaveAlertedComponents()}, Constants.WATCHING_TIME)
       }
     })
-
-
-    // setTimeout(() => {
-    //   this.createAlertMessage("CY01", "Ciclone 01") //just for test
-    // }, 3000)
-
-    
-    // check user is logged in
-      // if false
-    //this.menuCtrl.enable(false);
-    //this.router.navigateByUrl('/login');
-
     
   }
 
@@ -64,39 +49,21 @@ export class AppComponent {
 
 
       this.authenticationService.authenticationState.subscribe(state => {
-        if (state) {      
+        if (state) { 
           this.fillSideMenu()
           this.menuCtrl.enable(true)
           this.router.navigate(['dashboard/Mapa'])
 
         } else {
+          this.presentSetIpAndPortPrompt()
           this.menuCtrl.enable(false)
           this.router.navigate(['login']);
+
+
         }
       });
-
-      // let menuItems = FakeRequests.loginRequest() // REQUEST_TODO
-      // menuItems = menuItems = menuItems.components;
-
-      //this.fillSideMenu()
-
     });
-
-
-
-    // this.platform.pause.subscribe(() => {        
-      
-    // });  
-    // this.platform.resume.subscribe(() => { 
-    //   this.storage.get('token').then( token => {
-        
-    //   })
-      
-    //   this.authenticationService.refreshToken();  
-    //   console.log('****UserdashboardPage RESUMED****');
-    // });
-
-    
+  
   }
 
   isAlerted(id) {
@@ -118,13 +85,11 @@ export class AppComponent {
   }
 
   logout() {
-    //invalid token request
     this.stopGetAlertedComponents(this.interval)
     this.authenticationService.logout()
   }
 
   getAndSaveAlertedComponents(retry: boolean = true) {
-    //todo refresh access token
     this.deviceService.getAlertedComponents().then(res => {
       if (res instanceof Array) {
         
@@ -134,12 +99,11 @@ export class AppComponent {
         resIds.map( id => {
           if(this.alertedComponents.indexOf(id) == -1) {
             this.alertedComponents.push(id) //novo elemento
-            this.createAlertMessage(id)
+            this.createAlertMessage()
 
           }
         })
         this.events.publish('alerted-components:update', this.alertedComponents)
-        //this.storage.set('alerted-components', this.alertedComponents)
 
       }
       
@@ -154,15 +118,8 @@ export class AppComponent {
       return false
     })
   }
-
-  getIdAlertedComponentes() {
-    
-
-  }
-
-
   
-  async createAlertMessage(component_id) {
+  async createAlertMessage() {
     const toast = await this.toastController.create({
       header: 'Atenção',
       message: `Há novo(s) componente(s) com atributo(s) fora do recomendável`,
@@ -176,14 +133,8 @@ export class AppComponent {
             this.router.navigateByUrl(`/dashboard/Mapa`)
           }
         }
-        // }, {
-        //   text: 'Dispensar',
-        //   role: 'cancel',
-        //   handler: () => {
-        //     console.log('Dispensar clicked');
-        //   }
-        // }
       ]
+
     });
     toast.present();
   }
@@ -207,7 +158,7 @@ export class AppComponent {
               menuItem.alerted = true;
               this.alertedComponents.push(subItem.id);
             }
-            //this.storage.set(subItem.id, subItem);
+
           }
           menuItem.children.sort( ( a, b ) => { 
             if ( a.seq < b.seq )
@@ -217,20 +168,59 @@ export class AppComponent {
             return 0
           })
           this.appPages.push(menuItem);
-          //this.storage.set(menuItem.title, menuItem);
+         
 
         } else {
           let menuItem = {id: menuItems[i].id, title: menuItems[i].name, seq: menuItems[i].order, alerted: menuItems[i].alerted, url: `/device-details/${menuItems[i].id}`}
           this.appPages.push(menuItem);
 
           if(menuItem.alerted == true) this.alertedComponents.push(menuItem.id);
-          //this.storage.set(menuItem.id, menuItem);
+         
         }
       }
     }
 
-      this.storage.set('alerted-components', this.alertedComponents)
-      this.appPages = this.appPages.sort(MenuItem.compare); 
+    this.appPages = this.appPages.sort(MenuItem.compare); 
+  }
+
+  async presentSetIpAndPortPrompt() {
+    const alert = await this.alertController.create({
+      header: 'Endereço IP e porta da API:',
+      inputs: [
+        {
+          name: 'ip',
+          type: 'text',
+          placeholder: 'Ex.: 192.168.0.110'
+        },
+        {
+          name: 'port',
+          type: 'text',
+          placeholder: 'Ex.: 8080'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+            alert.dismiss()
+          }
+        }, {
+          text: 'Ok',
+          handler: (data) => {
+
+            Constants.BASE_API_URL = `http://${data.ip}:${data.port}`
+            console.log(Constants.BASE_API_URL)
+            alert.dismiss()
+          }
+        }
+      ]
+    });
+    
+    await alert.present();
+
   }
 
 }

@@ -14,7 +14,7 @@ export class Component {
 
     isAlerted(): boolean {
         this.parameters.forEach(param => {
-            if(param.alerted) return true;
+            if(param.status() !== "normal") return true;
         });
 
         return false;

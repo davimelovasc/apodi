@@ -3,6 +3,9 @@ import { Constants } from "./constants";
 export class Utils {
   
     public static decideIcon(unit: string){
+      if(!unit)
+      return Constants.PRESSAO_ICON;
+
         switch(unit.toUpperCase()) { 
           case Constants.TEMPERATURA_UNIT.toUpperCase():
             return Constants.TEMPERATURA_ICON;
@@ -18,6 +21,9 @@ export class Utils {
 
           case Constants.CORRENTE_UNIT.toUpperCase():
             return Constants.CORRENTE_ICON;
+
+          default: 
+            return Constants.PRESSAO_ICON;
         }
     }
 

@@ -21,16 +21,6 @@ export class DashboardPage implements OnInit {
     this.components = this.appComponent.appPages
     this.alertedComponents = this.appComponent.alertedComponents
     this.setComponentsName()
-   
-    
-    // this.getAlertedComponents().then(res => {
-    //   this.setComponentsName()
-    // })
-    
-    //
-    //this.alertedComponents = this.appComponent.alertedComponents
-    
-
     
   }
    
@@ -46,20 +36,14 @@ export class DashboardPage implements OnInit {
         this.alertedComponents = alertedComps
         this.setComponentsName()
         this.loadingController.dismiss()
-      }
-      
+      } 
       
     })
-    
   }
-
-  // async getAlertedComponents() {
-  //   this.alertedComponents = await this.storage.get('alerted-components')
-
-  // }
 
   setComponentsName() {
     this.alertedCompWithName = []
+
     this.components.forEach(comp => {
       if(comp.children) {
         comp.children.forEach(child => {
@@ -71,7 +55,6 @@ export class DashboardPage implements OnInit {
           this.alertedCompWithName.push({id: comp.id, name: comp.title})
       }
     })
-   
   }
 
   async presentLoading() {
@@ -81,8 +64,6 @@ export class DashboardPage implements OnInit {
     });
 
     return await loading.present();
-
-    
   }
 
 
