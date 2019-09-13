@@ -101,7 +101,8 @@ export class AppComponent {
       console.log("buscou alerted params")
       if (res instanceof Array) {
         
-        let resIds = res.map(param => { return param.componentId }) // separa somente os ids
+        let resIds = res.map(param => { return param.component_id }) // separa somente os ids
+        console.log(resIds)
         const alertedIds = resIds.filter((v,i) => resIds.indexOf(v) == i) // remove ids duplicados
 
         this.alertedComponents = this.alertedComponents.filter( id => { return (alertedIds.indexOf(id) == -1 ? false : true) }) //remove os elementos que nao estão mais em alertas
