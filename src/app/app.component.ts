@@ -98,11 +98,9 @@ export class AppComponent {
   getAndSaveAlertedComponents(retry: boolean = true) {
     let showAlert = false
     this.deviceService.getAlertedComponents().then(res => {
-      console.log("buscou alerted params")
       if (res instanceof Array) {
         
         let resIds = res.map(param => { return param.component_id }) // separa somente os ids
-        console.log(resIds)
         const alertedIds = resIds.filter((v,i) => resIds.indexOf(v) == i) // remove ids duplicados
 
         this.alertedComponents = this.alertedComponents.filter( id => { return (alertedIds.indexOf(id) == -1 ? false : true) }) //remove os elementos que nao estão mais em alertas
@@ -134,12 +132,10 @@ export class AppComponent {
 
   getAlertedComponentsFAKE() {
     let showAlert = false
-    console.log("buscou alerted params FAKE")
     let res: any = FakeRequests.getAlertedComponents()
     if (res instanceof Array) {
       let resIds = res.map(param => { return param.componentId }) // separa somente os ids
       const alertedIds = resIds.filter((v,i) => resIds.indexOf(v) == i) // remove ids duplicados
-      console.log(alertedIds)
       this.alertedComponents = this.alertedComponents.filter( id => { return (alertedIds.indexOf(id) == -1 ? false : true) }) //remove os elementos que nao estão mais em alertas
       alertedIds.map( id => {
         if(this.alertedComponents.indexOf(id) == -1) { //não esta dentro do meus alerted components
@@ -158,6 +154,7 @@ export class AppComponent {
       header: 'Atenção',
       message: `Há novo(s) componente(s) com atributo(s) fora do recomendável`,
       position: 'top',
+      duration: 10000,
       cssClass: 'dangerToast',
       buttons: [
         {
@@ -165,6 +162,13 @@ export class AppComponent {
           cssClass: 'checkButton',
           handler: () => {
             this.router.navigateByUrl(`/dashboard/Mapa`)
+          }
+        },{
+          text: 'Fechar',
+          role: 'checkButton',
+          cssClass: 'secondary',
+          handler: () => {
+            toast.dismiss()
           }
         }
       ]
@@ -238,7 +242,6 @@ export class AppComponent {
           role: 'cancel',
           cssClass: 'secondary',
           handler: () => {
-            console.log('Confirm Cancel');
             alert.dismiss()
           }
         }, {

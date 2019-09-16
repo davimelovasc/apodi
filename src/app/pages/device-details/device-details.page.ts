@@ -20,13 +20,14 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
   styleUrls: ['./device-details.page.scss'],
 })
 export class DeviceDetailsPage implements OnInit {
-
+  id: number;
   title: String;
   subTitle: String;
   component: ComponentModel = new ComponentModel();
   paramNameClass: string = "paramName";
   qrResponse: string;
   scanSub;
+  public updateintervals;
   
 
   constructor(private menuCtrl: MenuController, private router: Router, private route: ActivatedRoute,
@@ -38,46 +39,21 @@ export class DeviceDetailsPage implements OnInit {
     this.route.params.subscribe( async params => {
       this.component.parameters = [] //clear Params On Screen
       
-      let id = params['id'];
+      this.id = params['id'];
       //let title = params['title'];
 
       // if(title) {
       //   this.title = title;
       // }
-      if(id) { 
+      if(this.id) { 
         //this.subTitle = id;
-        let response;
-        await this.presentLoading()
-        //this.storage.get(`${id}_cache`).then( val => { // checa se tem no banco local
-          // if(val) {
-          //   this.configureComponent(val); // Atualiza as variaveis na tela
-          // } else {
-          //   id = "2" //APAGAR, APENAS PARA TESTE
-            this.getComponentById(id).then( res => {
-              response = res
-              //this.cacheResponse(response)
-              this.configureComponent(response) // Atualiza as variaveis na tela
-            }, err => {
-              if(err.status == 401) {
-                this.authenticationService.refreshToken().then( data => { // refresh token
+        //let response;
+        //await this.presentLoading()
+        await this.getParametersAndUpdateScreen(this.id);
+        
+        //this.loadingController.dismiss();
 
-                  this.getComponentById(id).then(res => {
-                    response = res
-                    //this.cacheResponse(response)
-                    this.configureComponent(response) // Atualiza as variaveis na tela
-                    
-                  }, err => {
-                    this.router.navigateByUrl('/login')
-                  })
-                })
-              }
-              
-            })    
-          //}
 
-          this.loadingController.dismiss();
-
-        //});
 
       }
 
@@ -87,7 +63,40 @@ export class DeviceDetailsPage implements OnInit {
 
   ngOnInit() {
     this.menuCtrl.enable(true);
+    
+    this.updateintervals = setInterval(() => {this.getParametersAndUpdateScreen(this.id)}, Constants.WATCHING_TIME)
 
+  }
+
+  ionViewWillLeave() {
+    clearInterval(this.updateintervals)
+  }
+
+  async getParametersAndUpdateScreen(id) {
+    await this.presentLoading()
+    console.log("chamoou")
+    let response;
+    this.getComponentById(id).then( res => {
+      response = res
+      //this.cacheResponse(response)
+      this.configureComponent(response) // Atualiza as variaveis na tela
+    }, err => {
+      if(err.status == 401) {
+        this.authenticationService.refreshToken().then( data => { // refresh token
+
+          this.getComponentById(id).then(res => {
+            response = res
+            //this.cacheResponse(response)
+            this.configureComponent(response) // Atualiza as variaveis na tela
+            
+          }, err => {
+            this.router.navigateByUrl('/login')
+          })
+        })
+      }
+      
+    })  
+    this.loadingController.dismiss();
   }
 
   async cacheResponse(response) {
@@ -118,13 +127,13 @@ export class DeviceDetailsPage implements OnInit {
     this.component.id = response.id;
     this.component.name = response.name;
     this.component.code = response.code;
-
+    this.component.parameters = [];
     for (let parameter of response.parameters) {
       this.component.parameters.push(new Parameter({id: parameter.id, code: parameter.code, name: parameter.name, 
         unit: parameter.unit, displayFormat: parameter.displayFormat, values: parameter.values, threshold_hh: parameter.threshold_hh,
         threshold_h: parameter.threshold_h, threshold_ll: parameter.threshold_ll, threshold_l: parameter.threshold_l,
         alerted: parameter.alerted, lastUpdate: new Date(parameter.date), component_id: parameter.componentId}));
-      
+
     }
 
 
@@ -200,13 +209,13 @@ export class DeviceDetailsPage implements OnInit {
   defParamClass(param: Parameter) {
     status = ""
     if(param) {
-      let status = param.status();
+      var status = param.status();
     }
     return "paramValue " + status;
   }
 
   toFixed(num, fixed = 2) {
-    if(!num) return ""
+    //if(!num) return ""
     var re = new RegExp('^-?\\d+(?:\.\\d{0,' + (fixed || -1) + '})?');
     return num.toString().match(re)[0];
   } 
