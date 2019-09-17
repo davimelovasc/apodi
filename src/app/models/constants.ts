@@ -22,7 +22,7 @@ export class Constants {
 
 
 
-    public static BASE_API_URL = "http://localhost:8080" //refatorar TODO tirar siara 172.18.9.183:8085
+    public static BASE_API_URL = "http://172.20.5.2:80"
 
     public static TOKEN_CODE = "token"
 
