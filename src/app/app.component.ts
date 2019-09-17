@@ -63,7 +63,7 @@ export class AppComponent {
         } else {
           this.menuCtrl.enable(false)
           this.router.navigate(['login'])
-          this.presentSetIpAndPortPrompt()
+          
 
 
         }
@@ -221,43 +221,6 @@ export class AppComponent {
     this.appPages = this.appPages.sort(MenuItem.compare); 
   }
 
-  async presentSetIpAndPortPrompt() {
-    const alert = await this.alertController.create({
-      header: 'Endereço IP e porta da API:',
-      inputs: [
-        {
-          name: 'ip',
-          type: 'text',
-          placeholder: 'Ex.: 192.168.0.110'
-        },
-        {
-          name: 'port',
-          type: 'text',
-          placeholder: 'Ex.: 8080'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            alert.dismiss()
-          }
-        }, {
-          text: 'Ok',
-          handler: (data) => {
-
-            Constants.BASE_API_URL = `http://${data.ip}:${data.port}`
-            console.log(Constants.BASE_API_URL)
-            alert.dismiss()
-          }
-        }
-      ]
-    });
-    
-    await alert.present();
-
-  }
+  
 
 }

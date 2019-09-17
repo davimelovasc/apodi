@@ -30,9 +30,7 @@ export class DashboardPage implements OnInit {
     this.menuCtrl.close();
 
     this.events.subscribe('alerted-components:update', async alertedComps => {
-      console.log("entrou antes do if")
       if(JSON.stringify(this.alertedComponents) !== JSON.stringify(alertedComps)){
-        console.log("entrou")
         await this.presentLoading()
         this.alertedComponents = alertedComps
         this.setComponentsName()
@@ -57,7 +55,7 @@ export class DashboardPage implements OnInit {
           this.alertedCompWithName.push({id: comp.id, name: comp.title})
       }
     })
-    console.log(this.alertedCompWithName)
+
   }
 
   async presentLoading() {

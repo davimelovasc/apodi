@@ -64,7 +64,7 @@ export class DeviceDetailsPage implements OnInit {
   ngOnInit() {
     this.menuCtrl.enable(true);
     
-    this.updateintervals = setInterval(() => {this.getParametersAndUpdateScreen(this.id)}, Constants.WATCHING_TIME)
+    this.updateintervals = setInterval(() => {this.getParametersAndUpdateScreen(this.id)}, Constants.REFRESH_COMPONENT_PARAMS_TIME)
 
   }
 
@@ -74,7 +74,6 @@ export class DeviceDetailsPage implements OnInit {
 
   async getParametersAndUpdateScreen(id) {
     await this.presentLoading()
-    console.log("chamoou")
     let response;
     this.getComponentById(id).then( res => {
       response = res
