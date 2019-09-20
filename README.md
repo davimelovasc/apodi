@@ -7,6 +7,8 @@
 ## Instalar e Configurar o Ambiente de Desenvolvimento
 Para o desenvolvimento com o Ionic, assim como para a execução de projetos Ionic no navegador , é preciso instalar o [Node.js](#nodejs), o [Ionic](#ionic) e o [Cordova](#cordova).
 
+> Todo o processo a seguir foi feito no Sistema Operacional Windows 10. No Linux e no Mac, o processo de configuração do ambiente de [build](#build-do-projeto-para-android) é diferente.
+
 ### Node.js
 Antes de instalar todas as outras ferramentas, é preciso instalar o Node.js. O Node.js é um ambiente de execução Javascript assíncrono orientado a eventos, ele é projetado para o desenvolvimento de aplicações escaláveis de rede.
 
@@ -47,12 +49,12 @@ Para realizar o build do projeto para Android, é necessário baixar e instalar 
 
 > O Android Studio irá perguntar onde você quer salvar o SDK. É recomendável que o salve no diretório `C:\Android\android-sdk-windows`.
 
-Após a instalação, execute o Android Studio pela primeira vez e realize o download do restante das dependências do SDK. Siga os seguintes passo:
+Após a instalação, execute o Android Studio pela primeira vez e realize o download do restante das dependências do SDK. Siga os seguintes passos:
 
-> 1. Na primeira tela, no canto inferior direito, clique em **Configure** > **SDK Manager**.
-> 2. Na aba **SDK Platforms**, marque as versões do Android que deseja baixar. É recomendável que marque ao menos o **Android 4.4 (KitKat)**.
-> 3. Na aba, **SDK Tools**, marque a opção **Android SDK Build-Tools** para baixar todas as API Level do Android.
-> 4. Após realizar as marcações necessárias, clique e **Apply** no canto inferior direito e o download e instalação dos pacotes começarão.
+1. Na primeira tela, no canto inferior direito, clique em **Configure** > **SDK Manager**.
+2. Na aba **SDK Platforms**, marque as versões do Android que deseja baixar. É recomendável que marque ao menos o **Android 4.4 (KitKat)**.
+3. Na aba, **SDK Tools**, marque a opção **Android SDK Build-Tools** para baixar todas as API Level do Android.
+4. Após realizar as marcações necessárias, clique e **Apply** no canto inferior direito e o download e instalação dos pacotes começarão.
 
 ### Gradle
 O Gradle é um sistema avançado de automatização de builds que une o melhor da flexibilidade do Ant com o gerenciamento de dependencias e as convenções do Maven.
@@ -60,40 +62,40 @@ O Gradle é um sistema avançado de automatização de builds que une o melhor d
 > [Baixe](https://gradle.org/next-steps/?version=5.6.2&format=bin) o Gradle e, de preferência, descompacte o arquivo ZIP no diretório `C:\Gradle\gradle-5.6.2`.
 
 ### Configurar as Variáveis de Ambiente
-Não basta apenas instalar as bibliotecas, é preciso dizer ao sistema operacional que elas existem e informá-lo onde elas estão. Por conta disso, deve-se configurar as Variáveis de Ambiente do Windows. As variáveis a serem configuradas, são as seguinte: [JAVA_HOME](#java_home), [ANDROID_HOME](#android_home-e-android_sdk_root), [ANDROID_SDK_ROOT](#android_home-e-android_sdk_root),  [GRADLE_HOME](#gradle_home) e [PATH](#path)
+Não basta apenas instalar as bibliotecas, é preciso dizer ao sistema operacional que elas existem e informá-lo onde elas estão. Por conta disso, deve-se configurar as Variáveis de Ambiente do Windows. As variáveis a serem configuradas, são as seguintes: [JAVA_HOME](#java_home), [ANDROID_HOME](#android_home-e-android_sdk_root), [ANDROID_SDK_ROOT](#android_home-e-android_sdk_root),  [GRADLE_HOME](#gradle_home) e [PATH](#path). Para ter acesso às Variáveis de Ambiente, siga os seguintes passos:
 
-> 1. No menu Iniciar do Windows, digite **Editar as variáveis de ambiente do sistema** e pressione **Enter**.
-> 2. Clique em **Variáveis de Ambiente...**, no canto inferior direito.
+1. No menu Iniciar do Windows, digite **Editar as variáveis de ambiente do sistema** e pressione **Enter**;
+2. Clique em **Variáveis de Ambiente...**, no canto inferior direito.
 
 #### JAVA_HOME
-> 1. Em **Variáveis do sistema**, clique em **Novo...**
-> 2. Em **Nome da variável** ponha **JAVA_HOME**.
-> 3. Em **Valor da variável** ponha o diretório onde foi instalado o JDK: `C:\Program Files\Java\jdk1.8.0.X`.
-> 4. Clique em **OK**, no canto inferior direito.
+1. Em **Variáveis do sistema**, clique em **Novo...**;
+2. Em **Nome da variável** ponha **JAVA_HOME**;
+3. Em **Valor da variável** ponha o diretório onde foi instalado o JDK: `C:\Program Files\Java\jdk1.8.0.X`;
+4. Clique em **OK**, no canto inferior direito.
 
 #### ANDROID_HOME e ANDROID_SDK_ROOT
-> 1. Em **Variáveis do sistema**, clique em **Novo...**
-> 2. Em **Nome da variável** ponha **ANDROID_HOME**.
-> 3. Em **Valor da variável** ponha o diretório onde foi instalado o Android SDK: `C:\Android\android-sdk-windows`.
-> 4. Clique em **OK**, no canto inferior direito.
+1. Em **Variáveis do sistema**, clique em **Novo...**;
+2. Em **Nome da variável** ponha **ANDROID_HOME**;
+3. Em **Valor da variável** ponha o diretório onde foi instalado o Android SDK: `C:\Android\android-sdk-windows`;
+4. Clique em **OK**, no canto inferior direito.
 
-> **OBS.:** O valor da variável **ANDROID_SDK_ROOT** é igual ao valor da variável **ANDROID_HOME**.
+> O valor da variável **ANDROID_SDK_ROOT** é igual ao valor da variável **ANDROID_HOME**. Basta seguir os passos acima, alterando apenas o campo **Nome da variável**.
 
 #### GRADLE_HOME
-> 1. Em **Variáveis do sistema**, clique em **Novo...**
-> 2. Em **Nome da variável** ponha **GRADLE_HOME**.
-> 3. Em **Valor da variável** ponha o diretório onde foi instalado o Gradle: `C:\Gradle\gradle-5.6.2`.
-> 4. Clique em **OK**, no canto inferior direito.
+1. Em **Variáveis do sistema**, clique em **Novo...**;
+2. Em **Nome da variável** ponha **GRADLE_HOME**;
+3. Em **Valor da variável** ponha o diretório onde foi instalado o Gradle: `C:\Gradle\gradle-5.6.2`;
+4. Clique em **OK**, no canto inferior direito.
 
 #### PATH
-> 1. Em **Variáveis do sistema**, selecione a variável **Path** e clique em **Editar...**, no canto inferior direito.
-> 2. No canto superior direito, clique em **Novo**.
-> 3. Digite `%JAVA_HOME%\bin`, pressione **Enter** e repita o **passo 2**.
-> 4. Digite `%ANDROID_HOME%\platform-tools`, pressione **Enter** e repita o **passo 2**.
-> 5. Digite `%ANDROID_HOME%\tools`, pressione **Enter** e repita o **passo 2**.
-> 6. Digite `%GRADLE_HOME%\bin`, pressione **Enter** e clique em **OK**.
+1. Em **Variáveis do sistema**, selecione a variável **Path** e clique em **Editar...**, no canto inferior direito;
+2. No canto superior direito, clique em **Novo**;
+3. Digite `%JAVA_HOME%\bin`, pressione **Enter** e repita o **passo 2**;
+4. Digite `%ANDROID_HOME%\platform-tools`, pressione **Enter** e repita o **passo 2**;
+5. Digite `%ANDROID_HOME%\tools`, pressione **Enter** e repita o **passo 2**;
+6. Digite `%GRADLE_HOME%\bin`, pressione **Enter** e clique em **OK**.
 
-> **OBS.:** Caso esteja em outras versões do Windows, basta adicionar `%JAVA%\bin;%ANDROID_HOME%\platform-tools;%ANDROID_HOME%\tools;%GRADLE_HOME%\bin;` no final do valor da variável **Path**.
+> Caso esteja em outras versões do Windows, basta adicionar `%JAVA%\bin;%ANDROID_HOME%\platform-tools;%ANDROID_HOME%\tools;%GRADLE_HOME%\bin;` no final do valor da variável **Path**.
 
 ### Realizar o Build do Projeto para Android
 Para fazer o build do projeto para Android, execute o comando `ionic cordova build android` no diretório do projeto. Verifique se ao final do processo de construção a saída é a seguinte:
@@ -101,6 +103,6 @@ Para fazer o build do projeto para Android, execute o comando `ionic cordova bui
 BUILD SUCCESSFUL in XXm XXs
 XX actionable tasks: XX executed
 Build the following apk(s):
-	<caminho do projeto>/platforms/android/app/build/outputs/apk/debug/app-debug.apk
+	<caminho do projeto>\platforms\android\app\build\outputs\apk\debug\app-debug.apk
 ```
 Agora basta copiar o arquivo APK para o dispositivo Android (tablet) e executar a instalação. Antes, verifique se o aparelho está habilitado para permitir a instalação de aplicativos de fontes desconhecidas.

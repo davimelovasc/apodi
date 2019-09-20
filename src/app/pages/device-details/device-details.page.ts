@@ -139,7 +139,7 @@ export class DeviceDetailsPage implements OnInit {
   }
 
   checkSize(name: string) {
-    if(name.length > 32)
+    if(name.length > 24)
       return false
     
     return true
